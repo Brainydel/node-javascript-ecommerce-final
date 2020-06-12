@@ -1,37 +1,72 @@
-import Utils from '../utils.js';
-import { apiUrl } from '../config.js';
-let getProduct = async (id) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  try {
-    const response = await fetch(`${apiUrl}/api/products/${id}`, options);
-    const json = await response.json();
-    // console.log(json)
-    return json;
-  } catch (err) {
-    console.log('Error getting documents', err);
-  }
-};
+import { parseRequestURL } from '../utils.js';
+import { getProduct } from '../api.js';
+import Rating from '../components/Rating.js';
 
-let ProductShow = {
+let ProductScreen = {
   render: async () => {
-    let request = Utils.parseRequestURL();
+    let request = parseRequestURL();
     let product = await getProduct(request.id);
 
     return `
-            <section class="section">
-                <h1> Product Id : ${product._id}</h1>
-                <p> Product Title : ${product.name} </p>
-                <p> Product Content : ${product.description} </p>
-                <p> Product Author : ${product.brand} </p>
-            </section>
+<div>
+    <div class="back-to-result">
+      <a href="/#">Back to result</a>
+    </div>
+    <div class="details">
+            <div class="details-image">
+              <img src="${product.image}" alt="product" ></img>
+            </div>
+            <div class="details-info">
+              <ul>
+                <li>
+                  <h1>${product.name}</h1>
+                </li>
+                <li>
+                ${Rating.render({
+                  value: product.rating,
+                  text: `${product.numReviews} reviews`,
+                })}
+                </li>
+                <li>
+                  Price: <b>$${product.price}</b>
+                </li>
+                <li>
+                  Description:
+                  <div>
+                    ${product.description}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="details-action">
+              <ul>
+                <li>
+                  Price: ${product.price}
+                </li>
+                <li>
+                  Status: ${
+                    product.countInStock > 0 ? 'In Stock' : 'Unavailable.'
+                  }
+                </li>              
+                <li>
+                <button
+                id="add_to_cart_btn"
+                class="button primary"
+                >
+                Add to Cart
+                </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         `;
   },
-  after_render: async () => {},
+  after_render: async () => {
+    let request = parseRequestURL();
+    document.getElementById('add_to_cart_btn').addEventListener('click', () => {
+      document.location.hash = '/cart/' + request.id;
+    });
+  },
 };
 
-export default ProductShow;
+export default ProductScreen;

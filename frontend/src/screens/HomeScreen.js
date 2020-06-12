@@ -7,7 +7,7 @@ let getPostsList = async () => {
     },
   };
   try {
-    const response = await fetch(`${apiUrl}api/products`, options);
+    const response = await fetch(`${apiUrl}/api/products`, options);
     const json = await response.json();
     return json;
   } catch (err) {

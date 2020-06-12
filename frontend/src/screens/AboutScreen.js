@@ -1,4 +1,4 @@
-let About = {
+let AboutScreen = {
   render: async () => {
     let view = /*html*/ `
             <section class="section">
@@ -10,4 +10,4 @@ let About = {
   after_render: async () => {},
 };
 
-export default About;
+export default AboutScreen;

@@ -5,10 +5,10 @@ let Header = {
         <button onClick={openMenu}>
           &#9776;
         </button>
-        <a href="/" >amazona</a>
+        <a href="/#/" >amazona</a>
       </div> 
       <div class="header-links">
-        <a href="cart.html">Cart</a>
+        <a href="/#/cart">Cart</a>
       </div> 
         `;
     return view;

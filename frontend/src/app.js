@@ -1,22 +1,28 @@
 'use strict';
-
 import HomeScreen from './screens/HomeScreen.js';
-import About from './screens/About.js';
+import AboutScreen from './screens/AboutScreen.js';
+import CartScreen from './screens/CartScreen.js';
 import Error404 from './screens/Error404.js';
-import PostShow from './screens/ProductScreen.js';
-import Register from './screens/Register.js';
+import ProductScreen from './screens/ProductScreen.js';
+import RegisterScreen from './screens/RegisterScreen.js';
 
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 
-import Utils from './utils.js';
+import { parseRequestURL } from './utils.js';
+import SigninScreen from './screens/SigninScreen.js';
+import ShippingScreen from './screens/ShippingScreen.js';
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
   '/': HomeScreen,
-  '/about': About,
-  '/product/:id': PostShow,
-  '/register': Register,
+  '/about': AboutScreen,
+  '/signin': SigninScreen,
+  '/shipping': ShippingScreen,
+  '/product/:id': ProductScreen,
+  '/cart/:id': CartScreen,
+  '/cart': CartScreen,
+  '/register': RegisterScreen,
 };
 
 // The router code. Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
@@ -33,7 +39,7 @@ const router = async () => {
   await Footer.after_render();
 
   // Get the parsed URl from the addressbar
-  let request = Utils.parseRequestURL();
+  let request = parseRequestURL();
 
   // Parse the URL and if it has an id part, change it with the string ":id"
   let parsedURL =
