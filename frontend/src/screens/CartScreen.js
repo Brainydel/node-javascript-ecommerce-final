@@ -1,7 +1,9 @@
 import { rerender, parseRequestURL } from '../utils.js';
 import { getProduct } from '../api.js';
-let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+import { getCartItems, setCartItems } from '../localStorage.js';
+
 const addToCart = (item, force = false) => {
+  let cartItems = getCartItems();
   const existItem = cartItems.find((x) => x.product === item.product);
   if (existItem) {
     if (force) {
@@ -12,15 +14,13 @@ const addToCart = (item, force = false) => {
   } else {
     cartItems = [...cartItems, item];
   }
-  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  setCartItems(cartItems);
   if (force) {
     rerender(CartScreen);
   }
 };
 const removeFromCart = (id) => {
-  console.log('removeFromCart', id);
-  cartItems = cartItems.filter((x) => x.product !== id);
-  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  setCartItems(getCartItems().filter((x) => x.product !== id));
   if (id === parseRequestURL().id) {
     document.location.hash = '/cart';
   } else {
@@ -32,22 +32,23 @@ const CartScreen = {
     const qtySelects = document.getElementsByClassName('qty-select');
     Array.from(qtySelects).forEach((qtySelect) => {
       qtySelect.addEventListener('change', (e) => {
-        const item = cartItems.find((x) => x.product === qtySelect.id);
+        const item = getCartItems().find((x) => x.product === qtySelect.id);
         addToCart({ ...item, qty: Number(e.target.value) }, true);
       });
     });
     const deleteButtons = document.getElementsByClassName('delete-button');
     Array.from(deleteButtons).forEach((deleteButton) => {
-      deleteButton.addEventListener('click', (e) => {
+      deleteButton.addEventListener('click', () => {
         removeFromCart(deleteButton.id);
       });
     });
     const checkoutButton = document.getElementById('checkout-button');
-    checkoutButton.addEventListener('click', (e) => {
+    checkoutButton.addEventListener('click', () => {
       document.location.hash = '/signin';
     });
   },
   render: async () => {
+    const cartItems = getCartItems();
     const request = parseRequestURL();
     if (request.id) {
       const product = await getProduct(request.id);
@@ -72,26 +73,25 @@ const CartScreen = {
         </li>
         ${
           cartItems.length === 0
-            ? `<div>Cart is empty. <a href="/#/">Go Shopping</a></div>`
+            ? '<div>Cart is empty. <a href="/#/">Go Shopping</a></div>'
             : cartItems
                 .map(
-                  (item) =>
-                    `
+                  (item) => `
                 <li>
                   <div class="cart-image">
                     <img src="${item.image}" alt="${item.name}" />
                   </div>
                   <div class="cart-name">
                     <div>
-                      <a href="${'/#/product/' + item.product}">${item.name}</a>
+                      <a href="${`/#/product/${item.product}`}">${item.name}</a>
                     </div>
                     <div>
-                      Qty:
+                        Qty:
                       <select  class="qty-select"
                       value="${item.qty}"
                       id="${item.product}">
                       ${[...Array(item.countInStock).keys()].map((x) =>
-                        item.qty == x + 1
+                        item.qty === x + 1
                           ? `<option value="${x + 1}" selected  >${
                               x + 1
                             }</option>`
@@ -110,7 +110,7 @@ const CartScreen = {
                   <div class="cart-price">$${item.price}</div>
                 </li>`
                 )
-                .join('')
+                .join('\n')
         }
       </ul>
     </div>
@@ -120,7 +120,7 @@ const CartScreen = {
         :
          $${cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
       </h3>
-      <button id="checkout-button" class="button primary full-width" >
+      <button id="checkout-button" class="primary full-width" >
         Proceed to Checkout
       </button>
     </div>

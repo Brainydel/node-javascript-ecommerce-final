@@ -1,56 +1,55 @@
-import { rerender } from '../utils.js';
+import { rerender, redirectUser, isLoggedIn } from '../utils.js';
 import { signin } from '../api.js';
+import { setUserInfo } from '../localStorage.js';
 
-let email = '';
-let password = '';
 let loading = false;
 let error = false;
 const SigninScreen = {
   after_render: () => {
-    const signinForm = document.getElementById('signin-form');
-    signinForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      loading = true;
-      rerender(SigninScreen);
-      email = document.getElementById('email').value;
-      password = document.getElementById('password').value;
-      const result = await signin(email, password);
-      if (result.error) {
-        error = result.error;
-        loading = false;
-        rerender(SigninScreen);
-      } else {
-        error = false;
-        loading = false;
-        const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-        if (cartItems.length) {
-          document.location.hash = '/shipping';
-        } else {
-          document.location.hash = '/';
-        }
-      }
-    });
-  },
-  render: () => {
-    const redirect = '/';
+    if (isLoggedIn()) {
+      redirectUser();
+      return;
+    }
 
-    return `<div class="form">
+    document
+      .getElementById('signin-form')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loading = true;
+        rerender(SigninScreen);
+        const data = await signin({
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+        });
+        if (data.error) {
+          error = data.error;
+          loading = false;
+          rerender(SigninScreen);
+        } else {
+          error = false;
+          loading = false;
+          setUserInfo(data);
+          redirectUser();
+        }
+      });
+  },
+  render: () => `
+  <div class="form">
         <form id="signin-form"  >
           <ul class="form-container">
             <li>
               <h2>Sign-In</h2>
             </li>
             <li>
-              ${loading ? `<div>Loading...</div>` : ``}
-              ${error ? `<div class="error">${error}</div>` : ``}
+              ${loading ? '<div>Loading...</div>' : ''}
+              ${error ? `<div class="error">${error}</div>` : ''}
             </li>
             <li>
               <label htmlFor="email">Email</label>
               <input
                 type="email"
                 name="email"
-                id="email"
-                value=${email}
+                id="email" 
               />
             </li>
             <li>
@@ -58,8 +57,7 @@ const SigninScreen = {
               <input
                 type="password"
                 id="password"
-                name="password"
-                value=${password}
+                name="password" 
               />
             </li>
             <li>
@@ -67,22 +65,18 @@ const SigninScreen = {
                 Signin
               </button>
             </li>
-            <li>New to amazona?</li>
             <li>
-              <a
-                href="${
-                  redirect === '/'
-                    ? 'register'
-                    : 'register?redirect=' + redirect
-                }"
-                class="button secondary text-center"
-              >
-                Create your amazona account
-              </a>
-            </li>
+            <div>New User? <a
+            href="/#/register"
+            class="button secondary text-center"
+          >
+            Create your account
+          </a>
+          <div>
+          </li>
+             
           </ul>
         </form>
-      </div>`;
-  },
+      </div>`,
 };
 export default SigninScreen;

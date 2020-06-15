@@ -1,32 +1,16 @@
-import { apiUrl } from '../config.js';
-let getPostsList = async () => {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  try {
-    const response = await fetch(`${apiUrl}/api/products`, options);
-    const json = await response.json();
-    return json;
-  } catch (err) {
-    console.log('Error getting documents', err);
-  }
-};
+import { getProducts } from '../api.js';
 
-let HomeScreen = {
+const HomeScreen = {
   render: async () => {
-    let products = await getPostsList();
+    const products = await getProducts();
     if (!products.length) {
-      return `<div>No product found.</div>`;
+      return '<div>No product found.</div>';
     }
-    let view = `
+    const view = `
     <ul class="products">
             ${products
               .map(
-                (product) =>
-                  `<li key=${product._id}>
+                (product) => `<li key=${product._id}>
                 <div class="product">
                   <a href="#/product/${product._id}">
                     <img class="product-image" src="${product.image}" alt="${product.name}" />
@@ -41,7 +25,7 @@ let HomeScreen = {
                 </div>
               </li>`
               )
-              .join('\n ')}
+              .join('\n')}
         </ul>
         `;
     return view;

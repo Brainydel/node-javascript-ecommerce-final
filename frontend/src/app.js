@@ -1,4 +1,3 @@
-'use strict';
 import HomeScreen from './screens/HomeScreen.js';
 import AboutScreen from './screens/AboutScreen.js';
 import CartScreen from './screens/CartScreen.js';
@@ -12,20 +11,24 @@ import Footer from './components/Footer.js';
 import { parseRequestURL } from './utils.js';
 import SigninScreen from './screens/SigninScreen.js';
 import ShippingScreen from './screens/ShippingScreen.js';
+import ProfileScreen from './screens/ProfileScreen.js';
+import PaymentScreen from './screens/PaymentScreen.js';
 
-// List of supported routes. Any url other than these routes will throw a 404 error
+// List of all routes.
 const routes = {
   '/': HomeScreen,
   '/about': AboutScreen,
   '/signin': SigninScreen,
+  '/register': RegisterScreen,
+  '/profile': ProfileScreen,
   '/shipping': ShippingScreen,
+  '/payment': PaymentScreen,
   '/product/:id': ProductScreen,
   '/cart/:id': CartScreen,
   '/cart': CartScreen,
-  '/register': RegisterScreen,
 };
 
-// The router code. Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
+// Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
 const router = async () => {
   // Lazy load view element:
   const header = null || document.getElementById('header_container');
@@ -39,17 +42,17 @@ const router = async () => {
   await Footer.after_render();
 
   // Get the parsed URl from the addressbar
-  let request = parseRequestURL();
+  const request = parseRequestURL();
 
   // Parse the URL and if it has an id part, change it with the string ":id"
-  let parsedURL =
-    (request.resource ? '/' + request.resource : '/') +
+  const parsedURL =
+    (request.resource ? `/${request.resource}` : '/') +
     (request.id ? '/:id' : '') +
-    (request.verb ? '/' + request.verb : '');
+    (request.verb ? `/${request.verb}` : '');
 
   // Get the page from our hash of supported routes.
   // If the parsed URL is not in our list of supported routes, select the 404 page instead
-  let screen = routes[parsedURL] ? routes[parsedURL] : Error404;
+  const screen = routes[parsedURL] ? routes[parsedURL] : Error404;
   content.innerHTML = await screen.render();
   await screen.after_render();
 };

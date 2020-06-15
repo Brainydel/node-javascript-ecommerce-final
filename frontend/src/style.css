@@ -304,6 +304,9 @@ a:hover {
 .form .error {
   color: #c04000;
 }
+.form .success {
+  color: #40c040;
+}
 /* Products */
 
 .product-header {

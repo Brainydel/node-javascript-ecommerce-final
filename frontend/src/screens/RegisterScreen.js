@@ -1,67 +1,105 @@
-const RegisterScreen = {
-  render: async () => {
-    return /*html*/ `
-            <section class="section">
-                <div class="field">
-                    <p class="control has-icons-left has-icons-right">
-                        <input class="input" id="email_input" type="email" placeholder="Enter your Email">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input" id="pass_input" type="password" placeholder="Enter a Password">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input" id="repeat_pass_input" type="password" placeholder="Enter the same Password again">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <p class="control">
-                        <button class="button is-primary" id="register_submit_btn">
-                        Register
-                        </button>
-                    </p>
-                </div>
+import { rerender, redirectUser, isLoggedIn } from '../utils.js';
+import { register } from '../api.js';
+import { setUserInfo } from '../localStorage.js';
 
-            </section>
-        `;
-  },
-  // All the code related to DOM interactions and controls go in here.
-  // This is a separate call as these can be registered only after the DOM has been painted
-  after_render: async () => {
+let name = '';
+let email = '';
+let password = '';
+let rePassword = '';
+let loading = false;
+let error = false;
+
+const RegisterScreen = {
+  after_render: () => {
+    if (isLoggedIn()) {
+      redirectUser();
+      return;
+    }
+
     document
-      .getElementById('register_submit_btn')
-      .addEventListener('click', () => {
-        let email = document.getElementById('email_input');
-        let pass = document.getElementById('pass_input');
-        let repeatPass = document.getElementById('repeat_pass_input');
-        if (pass.value != repeatPass.value) {
-          alert(`The passwords dont match`);
-        } else if (
-          (email.value == '') |
-          (pass.value == '') |
-          (repeatPass == '')
-        ) {
-          alert(`The fields cannot be empty`);
+      .getElementById('register-form')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loading = true;
+        rerender(RegisterScreen);
+        name = document.getElementById('name').value;
+        email = document.getElementById('email').value;
+        password = document.getElementById('password').value;
+        rePassword = document.getElementById('re-password').value;
+        const data = await register({ name, email, password });
+        if (data.error) {
+          error = data.error;
+          loading = false;
+          rerender(RegisterScreen);
         } else {
-          alert(`User with email ${email.value} was successfully submitted!`);
+          error = false;
+          loading = false;
+          setUserInfo(data);
+          redirectUser();
         }
       });
   },
+  render: () => `
+      <div class="form">
+        <form id="register-form">
+          <ul class="form-container">
+            <li>
+              <h2>Create Account</h2>
+            </li>
+            <li>
+              ${loading ? '<div>Loading...</div>' : ''}
+              ${error ? `<div class="error">${error}</div>` : ''}
+            </li>
+            <li>
+              <label htmlFor="name">Name</label>
+              <input
+                type="name"
+                name="name"
+                value="${name}"
+                required
+                id="name" />
+            </li>
+            <li>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"   
+                required             
+                value="${email}"
+                />
+            </li>
+            <li>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required       
+                value="${password}"
+                />
+            </li>
+            <li>
+              <label htmlFor="re-password">Re-Enter Password</label>
+              <input
+                type="password"
+                id="re-password"
+                name="re-password"
+                required            
+                value="${rePassword}"
+                />
+            </li>
+            <li>
+              <button type="submit" class="button primary">
+                Register
+              </button>
+            </li>
+            <li>
+              <div>Already have an account? <a href="/#/signin"> Sign-In </a>
+              </div>
+            </li>
+          </ul>
+        </form>
+      </div>`,
 };
-
 export default RegisterScreen;

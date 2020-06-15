@@ -1,22 +1,23 @@
+/* eslint-disable indent */
 import { parseRequestURL } from '../utils.js';
 import { getProduct } from '../api.js';
 import Rating from '../components/Rating.js';
 
-let ProductScreen = {
+const ProductScreen = {
   render: async () => {
-    let request = parseRequestURL();
-    let product = await getProduct(request.id);
+    const request = parseRequestURL();
+    const product = await getProduct(request.id);
 
     return `
-<div>
-    <div class="back-to-result">
-      <a href="/#">Back to result</a>
-    </div>
-    <div class="details">
-            <div class="details-image">
-              <img src="${product.image}" alt="product" ></img>
-            </div>
-            <div class="details-info">
+    <div>
+      <div class="back-to-result">
+        <a href="/#">Back to result</a>
+      </div>
+      <div class="details">
+          <div class="details-image">
+              <img src="${product.image}" alt="product" />
+           </div>
+           <div class="details-info">
               <ul>
                 <li>
                   <h1>${product.name}</h1>
@@ -44,14 +45,13 @@ let ProductScreen = {
                   Price: ${product.price}
                 </li>
                 <li>
-                  Status: ${
-                    product.countInStock > 0 ? 'In Stock' : 'Unavailable.'
-                  }
+                  Status:  
+                   ${product.countInStock > 0 ? 'In Stock' : 'Unavailable.'}
                 </li>              
                 <li>
                 <button
-                id="add_to_cart_btn"
-                class="button primary"
+                id="add-button"
+                class="primary"
                 >
                 Add to Cart
                 </button>
@@ -62,9 +62,9 @@ let ProductScreen = {
         `;
   },
   after_render: async () => {
-    let request = parseRequestURL();
-    document.getElementById('add_to_cart_btn').addEventListener('click', () => {
-      document.location.hash = '/cart/' + request.id;
+    const request = parseRequestURL();
+    document.getElementById('add-button').addEventListener('click', () => {
+      document.location.hash = `/cart/${request.id}`;
     });
   },
 };
