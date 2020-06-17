@@ -1,4 +1,5 @@
 export const getUserInfo = () => {
+  console.log('getUserInfo');
   const userInfo = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : { name: '', email: '', password: '' };
@@ -39,8 +40,10 @@ export const getShipping = () => {
     : { city: '', country: '', address: '', postalCode: '' };
   return cartItems;
 };
-export const removeCartItems = () => {
+export const removeCart = () => {
   localStorage.removeItem('cartItems');
+  localStorage.removeItem('shipping');
+  localStorage.removeItem('payment');
 };
 export const setShipping = ({
   address = '',

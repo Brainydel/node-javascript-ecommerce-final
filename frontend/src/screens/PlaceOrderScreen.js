@@ -1,96 +1,131 @@
-const PlaceOrderScreen = {
-  after_render: () =>{
-    placeorder-button
-    const placeOrderHandler = () => {
-      // create an order
-      dispatch(
-        createOrder({
-          orderItems: cartItems,
-          shipping,
-          payment,
-          itemsPrice,
-          shippingPrice,
-          taxPrice,
-          totalPrice,
-        })
-      );
-    };
+import {
+  getCartItems,
+  getShipping,
+  getPayment,
+  removeCart,
+} from '../localStorage.js';
+import CheckoutSteps from '../components/CheckoutSteps.js';
+import { createOrder } from '../api.js';
+import { rerender } from '../utils.js';
+
+let loading = false;
+let error = false;
+const convertCartToOrder = () => {
+  const orderItems = getCartItems();
+  if (orderItems.length === 0) document.location.hash = '/cart';
+  const shipping = getShipping();
+  if (!shipping.address) document.location.hash = '/shipping';
+  const payment = getPayment();
+  if (!payment.paymentMethod) document.location.hash = '/payment';
+
+  const itemsPrice = orderItems.reduce((a, c) => a + c.price * c.qty, 0);
+  const shippingPrice = itemsPrice > 100 ? 0 : 10;
+  const taxPrice = 0.15 * itemsPrice;
+  const totalPrice = itemsPrice + shippingPrice + taxPrice;
+  return {
+    shipping,
+    payment,
+    orderItems,
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+  };
+};
+const placeOrder = async () => {
+  const order = convertCartToOrder();
+  const data = await createOrder(order);
+  console.log(data);
+  if (data.error) {
+    error = data.error;
+    loading = false;
+    rerender(PlaceOrderScreen);
+  } else {
+    error = false;
+    loading = false;
+    removeCart();
+    document.location.hash = `/order/${data.data._id}`;
   }
+};
+const PlaceOrderScreen = {
+  after_render: () => {
+    document
+      .getElementById('placeorder-button')
+      .addEventListener('click', () => {
+        placeOrder();
+      });
+  },
   render: () => {
-    const cart = useSelector((state) => state.cart);
-    const orderCreate = useSelector((state) => state.orderCreate);
-    const { loading, success, error, order } = orderCreate;
-
-    const { cartItems, shipping, payment } = cart;
-    if (!shipping.address) {
-      props.history.push('/shipping');
-    } else if (!payment.paymentMethod) {
-      props.history.push('/payment');
-    }
-    const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
-    const shippingPrice = itemsPrice > 100 ? 0 : 10;
-    const taxPrice = 0.15 * itemsPrice;
-    const totalPrice = itemsPrice + shippingPrice + taxPrice;
-
-    const dispatch = useDispatch();
-
-
-    useEffect(() => {
-      if (success) {
-        props.history.push(`/order/${order._id}`);
-      }
-    }, [success]);
+    const {
+      shipping,
+      payment,
+      orderItems,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    } = convertCartToOrder();
 
     return `
       <div>
-        <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
-        <div className="placeorder">
-          <div className="placeorder-info">
+      ${CheckoutSteps.render({
+        step1: true,
+        step2: true,
+        step3: true,
+        step4: true,
+      })}
+      <div class="placeorder">
+          <div class="placeorder-info">
             <div>
               <h3>Shipping</h3>
               <div>
-                {cart.shipping.address}, {cart.shipping.city},
-                {cart.shipping.postalCode}, {cart.shipping.country},
+                ${shipping.address}, ${shipping.city},
+                ${shipping.postalCode}, ${shipping.country},
               </div>
             </div>
             <div>
               <h3>Payment</h3>
-              <div>Payment Method: {cart.payment.paymentMethod}</div>
+              <div>Payment Method: ${payment.paymentMethod}</div>
             </div>
             <div>
-              <ul className="cart-list-container">
+              <ul class="cart-list-container">
                 <li>
                   <h3>Shopping Cart</h3>
                   <div>Price</div>
                 </li>
-                {cartItems.length === 0 ? (
-                  <div>Cart is empty</div>
-                ) : (
-                  cartItems.map((item) => (
-                    <li>
-                      <div className="cart-image">
-                        <img src={item.image} alt="product" />
+                ${
+                  orderItems.length === 0
+                    ? `<div>Cart is empty</div>`
+                    : orderItems.map(
+                        (item) =>
+                          `<li>
+                      <div class="cart-image">
+                        <img src="${item.image}" alt="${item.name}" />
                       </div>
-                      <div className="cart-name">
+                      <div class="cart-name">
                         <div>
-                          <Link to={'/product/' + item.product}>
-                            {item.name}
-                          </Link>
+                          <a href="{'/product/' + item.product}">
+                            ${item.name}
+                          </a>
                         </div>
-                        <div>Qty: {item.qty}</div>
+                        <div>Qty: ${item.qty}</div>
                       </div>
-                      <div className="cart-price">${item.price}</div>
-                    </li>
-                  ))
-                )}
+                      <div class="cart-price">$ ${item.price}</div>
+                    </li>`
+                      )
+                }
               </ul>
             </div>
           </div>
-          <div className="placeorder-action">
+          <div class="placeorder-action">
             <ul>
+            <li>
+            ${loading ? '<div>Loading...</div>' : ''}
+            ${error ? `<div class="error">${error}</div>` : ''}         
+            </li>
               <li>
                 <button
-                  className="button primary full-width"
+                  class="primary full-width"
                   id="placeorder-button"
                 >
                   Place Order
@@ -101,19 +136,19 @@ const PlaceOrderScreen = {
               </li>
               <li>
                 <div>Items</div>
-                <div>${itemsPrice}</div>
+                <div>$${itemsPrice}</div>
               </li>
               <li>
                 <div>Shipping</div>
-                <div>${shippingPrice}</div>
+                <div>$${shippingPrice}</div>
               </li>
               <li>
                 <div>Tax</div>
-                <div>${taxPrice}</div>
+                <div>$${taxPrice}</div>
               </li>
               <li>
                 <div>Order Total</div>
-                <div>${totalPrice}</div>
+                <div>$${totalPrice}</div>
               </li>
             </ul>
           </div>

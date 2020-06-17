@@ -1,5 +1,5 @@
 import { rerender } from '../utils.js';
-import { update } from '../api.js';
+import { update, getMyOrders } from '../api.js';
 import { getUserInfo, setUserInfo, removeAllInfo } from '../localStorage.js';
 
 let { _id: userId, name, email, password } = getUserInfo();
@@ -44,7 +44,9 @@ const ProfileScreen = {
         }
       });
   },
-  render: () => `
+  render: async () => {
+    const orders = await getMyOrders();
+    return `
       <div class="profile">
         <div class="profile-info">
           <div class="form">
@@ -101,8 +103,41 @@ const ProfileScreen = {
               </ul>
             </form>
           </div>
-        </div>         
-      </div>`,
+        </div>
+        <div class="profile-orders">
+         
+          <table>
+            <thead>
+              <tr>
+                <th>ORDER ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${orders
+                .map(
+                  (order) => `
+                <tr>
+                  <td>${order._id}</td>
+                  <td>${order.createdAt}</td>
+                  <td>${order.totalPrice}</td>
+                  <td>${order.isPaid}</td>
+                  <td>${order.isDelivered}</td>
+                  <td>
+                    <a href="/#/order/${order._id}">DETAILS</a>
+                  </td>
+                </tr>`
+                )
+                .join('\n')}
+            </tbody>
+          </table>
+        </div>  
+     </div>`;
+  },
 };
 
 export default ProfileScreen;

@@ -5,7 +5,9 @@ const PaymentScreen = {
   after_render: () => {
     document.getElementById('payment-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const paymentMethod = document.getElementById('payment-method').value;
+      const paymentMethod = document.querySelector(
+        'input[name="payment-method"]:checked'
+      ).value;
       setPayment({ paymentMethod });
       document.location.hash = '/placeorder';
     });
@@ -25,11 +27,25 @@ const PaymentScreen = {
                   <input
                     type="radio"
                     name="payment-method"
-                    id="payment-method"
-                    value="paypal" />
-                  <label htmlFor="payment-method">Paypal</label>
+                    id="paypal"
+                    value="Paypal"
+                    checked
+                     />
+                  <label for="paypal">Paypal</label>
                 </div>
               </li>
+              <li>
+              <div>
+                <input
+                  type="radio"
+                  name="payment-method"
+                  id="stripe"
+                  value="Stripe" 
+                  disabled
+                   />
+                <label for="stripe">Stripe</label>
+              </div>
+            </li>
 
               <li>
                 <button type="submit" class="primary">

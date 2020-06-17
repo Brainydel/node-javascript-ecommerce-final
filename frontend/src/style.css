@@ -1,6 +1,8 @@
+* {
+  box-sizing: border-box;
+}
 html {
   font-size: 62.5%; /* 16px * 62.5 = 10px = 1rem */
-  box-sizing: border-box;
 }
 body {
   font: 1.6rem Helvetica;
@@ -29,6 +31,24 @@ button.primary {
 button.secondary {
   background-color: #f0f0f0;
 }
+
+.loading-overlay {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(16, 16, 16, 0.5);
+}
+.loading-overlay.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+
 .full-width {
   width: 100%;
 }
@@ -51,6 +71,7 @@ header {
   align-items: center;
   padding: 0.5rem;
 }
+
 .brand a {
   color: #ffffff;
   font-size: 3rem;
@@ -65,6 +86,38 @@ header {
 .header-links a:hover {
   color: #ff8000;
 }
+
+/* Search */
+.search {
+  width: 40%;
+}
+form.search-form input[type='text'] {
+  float: left;
+  width: 80%;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+form.search-form button {
+  float: left;
+  width: 40px;
+  background: #f0c040;
+
+  border-left: none;
+  cursor: pointer;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+form.search-form button:hover {
+  background: #0b7dda;
+}
+/* Clear floats */
+form.search-form::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
 main {
   grid-area: main;
 }
@@ -98,6 +151,12 @@ a:hover {
   margin-bottom: 0;
   height: 42rem;
   border-top: 0.2rem #e0e0e0 solid;
+}
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 .product {
   display: flex;
@@ -235,9 +294,8 @@ a:hover {
   padding: 1rem;
 }
 .cart-list-container {
-  padding: 0;
-  list-style-type: none;
   padding: 1rem;
+  list-style-type: none;
 }
 .cart-list-container li {
   display: flex;
@@ -315,11 +373,7 @@ a:hover {
   align-items: flex-start;
 }
 
-.content-margined {
-  margin: 1rem;
-}
-
-.table {
+table {
   width: 100%;
 }
 th {
@@ -328,7 +382,9 @@ th {
 tbody > tr:nth-child(odd) {
   background-color: #f0f0f0;
 }
-
+td {
+  padding: 0.5rem;
+}
 /* Checkout Steps */
 
 .checkout-steps {
@@ -349,22 +405,20 @@ tbody > tr:nth-child(odd) {
 }
 
 /* Place Order */
-
 .placeorder {
   display: flex;
-  flex-grow: wrap;
+  flex-wrap: wrap;
   padding: 1rem;
   justify-content: space-between;
 }
 .placeorder-info {
   flex: 3 1 60rem;
 }
-.placeorder-action {
-  flex: 1 1 20rem;
-  border: 0.1rem #c0c0c0 solid;
-  border-radius: 0.5rem;
-  background-color: #fcfcfc;
-  padding: 1rem;
+.placeorder-info .cart-list-container {
+  padding: 0rem;
+}
+.placeorder-info li h3 {
+  margin: 0;
 }
 .placeorder-info > div {
   border: 0.1rem #c0c0c0 solid;
@@ -374,6 +428,16 @@ tbody > tr:nth-child(odd) {
   margin: 1rem;
 }
 .placeorder-info > div:first-child {
+  margin-top: 0;
+}
+.placeorder-action {
+  flex: 1 1 20rem;
+  border: 0.1rem #c0c0c0 solid;
+  border-radius: 0.5rem;
+  background-color: #fcfcfc;
+  padding: 1rem;
+}
+.placeorder-action h3 {
   margin-top: 0;
 }
 .placeorder-action > ul {
@@ -399,6 +463,7 @@ tbody > tr:nth-child(odd) {
 .profile {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .profile-info {
@@ -406,8 +471,11 @@ tbody > tr:nth-child(odd) {
 }
 .profile-orders {
   flex: 3 1 60rem;
+  margin-top: 1rem;
 }
-
+.profile-info h2 {
+  margin: 0;
+}
 /* admin */
 .dropdown {
   display: inline-block;
@@ -467,4 +535,41 @@ tbody > tr:nth-child(odd) {
 .rating span:last-child {
   color: #444444;
   font-size: 1.4rem;
+}
+/* Serach */
+
+/* Style the search field */
+form.example input[type='text'] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+@media only screen and (max-width: 600px) {
+  .brand a {
+    font-size: 2rem;
+  }
+  .brand button {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  .search {
+    width: auto;
+  }
+  form.search-form {
+    width: 18rem;
+  }
+  form.search-form button {
+    width: 20%;
+  }
+  form.search-form input,
+  form.search-form button {
+    padding: 0.5rem;
+  }
+  .header-links a {
+    font-size: 1rem;
+    padding: 0;
+  }
 }

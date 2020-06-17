@@ -14,6 +14,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-console': 0,
     'no-underscore-dangle': 0,
+    'no-nested-ternary': 0,
     //   'object-curly-newline': 0,
     'no-use-before-define': 0,
     //   'no-confusing-arrow': 0,

@@ -1,10 +1,12 @@
 import { getProducts } from '../api.js';
+import { parseRequestURL } from '../utils.js';
 
 const HomeScreen = {
   render: async () => {
-    const products = await getProducts();
+    const { value } = parseRequestURL();
+    const products = await getProducts({ searchKeyword: value });
     if (!products.length) {
-      return '<div>No product found.</div>';
+      return '<div class="message">No product found.</div>';
     }
     const view = `
     <ul class="products">

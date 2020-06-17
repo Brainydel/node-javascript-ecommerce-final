@@ -50,7 +50,7 @@ router.post('/register', async (req, res) => {
   });
   const newUser = await user.save();
   if (newUser) {
-    res.send({
+    res.status(201).send({
       _id: newUser.id,
       name: newUser.name,
       email: newUser.email,

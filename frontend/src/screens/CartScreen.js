@@ -48,7 +48,6 @@ const CartScreen = {
     });
   },
   render: async () => {
-    const cartItems = getCartItems();
     const request = parseRequestURL();
     if (request.id) {
       const product = await getProduct(request.id);
@@ -61,6 +60,7 @@ const CartScreen = {
         qty: 1,
       });
     }
+    const cartItems = getCartItems();
     return `
     <div class="cart">
       <div class="cart-list">
