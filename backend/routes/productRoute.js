@@ -88,24 +88,46 @@ router.post(
   isAdmin,
   asyncHandler(async (req, res) => {
     const product = new Product({
-      name: req.body.name,
-      price: req.body.price,
-      image: req.body.image,
-      brand: req.body.brand,
-      category: req.body.category,
-      countInStock: req.body.countInStock,
-      description: req.body.description,
-      rating: req.body.rating,
-      numReviews: req.body.numReviews,
+      name: 'Sample Product',
+      description: 'Sample Description',
+      category: 'Sample Category',
+      brand: 'Sample Brand',
+      image: '/images/product-1.jpg',
     });
     const newProduct = await product.save();
     if (newProduct) {
       return res
         .status(201)
-        .send({ message: 'New Product Created', data: newProduct });
+        .send({ message: 'Product Created', data: newProduct });
     }
     return res.status(500).send({ message: ' Error in Creating Product.' });
   })
 );
-
+router.post(
+  '/:id/reviews',
+  isAuth,
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      const review = {
+        rating: req.body.rating,
+        comment: req.body.comment,
+        user: req.user._id,
+        name: req.user.name,
+      };
+      product.reviews.push(review);
+      product.rating =
+        product.reviews.reduce((a, c) => c.rating + a, 0) /
+        product.reviews.length;
+      product.numReviews = product.reviews.length;
+      const updatedProduct = await product.save();
+      res.status(201).send({
+        message: 'Comment Created.',
+        data: updatedProduct.reviews[updatedProduct.reviews.length - 1],
+      });
+    } else {
+      throw Error('Product does not exist.');
+    }
+  })
+);
 export default router;

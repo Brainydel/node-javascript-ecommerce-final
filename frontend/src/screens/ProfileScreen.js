@@ -23,7 +23,9 @@ const ProfileScreen = {
           showMessage(data.error);
         } else {
           setUserInfo(data);
-          document.location.reload();
+          showMessage('Profile Updated Successfully.', () => {
+            document.location.reload();
+          });
         }
       });
   },
@@ -42,7 +44,7 @@ const ProfileScreen = {
                 <li> 
             </li>
                 <li>
-                  <label htmlFor="name">Name</label>
+                  <label for="name">Name</label>
                   <input
                     value="${name}"
                     type="text"
@@ -51,7 +53,7 @@ const ProfileScreen = {
                     required />
                 </li>
                 <li>
-                  <label htmlFor="email">Email</label>
+                  <label for="email">Email</label>
                   <input
                     value="${email}"
                     type="email"
@@ -60,7 +62,7 @@ const ProfileScreen = {
                     id="email" />
                 </li>
                 <li>
-                  <label htmlFor="password">Password</label>
+                  <label for="password">Password</label>
                   <input 
                     type="password"
                     id="password"
@@ -68,7 +70,7 @@ const ProfileScreen = {
                 </li>
 
                 <li>
-                  <button type="submit" class="button primary">
+                  <button type="submit" class="primary">
                     Update
                   </button>
                 </li>
@@ -76,7 +78,7 @@ const ProfileScreen = {
                   <button
                     type="button"
                     id="logout-button" 
-                    class="button secondary full-width"
+                    class="fw"
                   >
                     Logout
                   </button>

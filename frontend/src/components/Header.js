@@ -24,11 +24,28 @@ const Header = {
         `;
   },
   after_render: async () => {
-    const { name } = getUserInfo();
+    const { name, isAdmin } = getUserInfo();
     if (name) {
-      document.getElementById('header-links').innerHTML = `
+      if (isAdmin) {
+        document.getElementById('header-links').innerHTML = `
+        <a href="/#/profile">${name}</a>
+        <a href="/#/cart">Cart</a>       
+        <div class="dropdown">
+          <a href="/#">Admin</a>
+          <ul class="dropdown-content">
+          <li>  
+            <a href="/#/productlist">Products</a>
+          </li>
+          <li> 
+            <a href="/#/orderlist">Orders</a> 
+          </li>
+          </ul>
+        </div>`;
+      } else {
+        document.getElementById('header-links').innerHTML = `
         <a href="/#/profile">${name}</a>
         <a href="/#/cart">Cart</a>`;
+      }
     }
     document
       .getElementById('search-form')

@@ -135,7 +135,7 @@ const PlaceOrderScreen = {
               </li>
               <li>
                 <button
-                  class="primary full-width"
+                  class="primary fw"
                   id="placeorder-button"
                 >
                   Place Order

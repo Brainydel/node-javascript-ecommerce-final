@@ -1,5 +1,4 @@
 export const getUserInfo = () => {
-  console.log('getUserInfo');
   const userInfo = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : { name: '', email: '', password: '' };

@@ -26,7 +26,7 @@ const ShippingScreen = {
               <h2>Shipping</h2>
             </li>
             <li>
-              <label htmlFor="address">Address</label>
+              <label for="address">Address</label>
               <input
                 type="text"
                 name="address"
@@ -36,7 +36,7 @@ const ShippingScreen = {
               />
             </li>
             <li>
-              <label htmlFor="city">City</label>
+              <label for="city">City</label>
               <input
                 type="text"
                 name="city"
@@ -46,7 +46,7 @@ const ShippingScreen = {
               />
             </li>
             <li>
-              <label htmlFor="postal-code">Postal Code</label>
+              <label for="postal-code">Postal Code</label>
               <input
                 type="text"
                 name="postal-code"
@@ -56,7 +56,7 @@ const ShippingScreen = {
               />
             </li>
             <li>
-              <label htmlFor="country">Country</label>
+              <label for="country">Country</label>
               <input
                 type="text"
                 name="country"
@@ -66,7 +66,7 @@ const ShippingScreen = {
               />
             </li>
             <li>
-              <button type="submit" class="button primary">
+              <button type="submit" class="primary">
                 Continue
               </button>
             </li>

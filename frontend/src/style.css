@@ -11,8 +11,9 @@ body {
 }
 select,
 input,
-button {
-  font-size: 1.6rem;
+button,
+textarea {
+  font: 1.6rem Helvetica;
   padding: 1rem;
   border: 0.1rem #808080 solid;
   border-radius: 0.5rem;
@@ -28,11 +29,8 @@ button:hover {
 button.primary {
   background-color: #f0c040;
 }
-button.secondary {
-  background-color: #f0f0f0;
-}
 
-.loading-overlay {
+.overlay {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -42,13 +40,13 @@ button.secondary {
   height: 100%;
   background-color: rgba(16, 16, 16, 0.5);
 }
-.loading-overlay.active {
+.overlay.active {
   display: flex;
   justify-content: center;
   align-items: center;
   color: #ffffff;
 }
-.loading-overlay > div {
+.overlay > div {
   background-color: #ffffff;
   color: #000000;
   border-radius: 0.5rem;
@@ -57,11 +55,11 @@ button.secondary {
   justify-content: space-around;
   max-width: 40rem;
 }
-.loading-overlay > div > * {
+.overlay > div > * {
   margin: 2rem;
 }
 
-.full-width {
+.fw {
   width: 100%;
 }
 .grid-container {
@@ -244,6 +242,14 @@ a:hover {
   font-size: 1.2rem;
 }
 
+.review {
+  list-style-type: none;
+  padding: 0;
+}
+.review li {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
 /* Sidebar */
 
 .brand button {
@@ -420,12 +426,14 @@ a:hover {
 .form .success {
   color: #40c040;
 }
-/* Products */
-
+/* Product List */
+.content {
+  padding: 1rem;
+}
 .product-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 table {
@@ -549,6 +557,9 @@ td {
 }
 .dropdown:hover .dropdown-content {
   display: block;
+}
+.dropdown-content li {
+  padding: 1rem;
 }
 
 /* filter */

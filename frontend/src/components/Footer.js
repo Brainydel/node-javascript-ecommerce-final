@@ -1,9 +1,6 @@
-let Footer = {
+const Footer = {
   render: async () => {
-    let view = `
-        <div>All right is reserved @2020 </div>
-        `;
-    return view;
+    return `<div>All rights reserved @2020 </div>`;
   },
   after_render: async () => {},
 };

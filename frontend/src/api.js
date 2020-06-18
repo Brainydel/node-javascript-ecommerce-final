@@ -1,6 +1,5 @@
 import { apiUrl } from './config.js';
 import { getUserInfo } from './localStorage.js';
-import { hideLoading } from './utils.js';
 
 // Product API
 export const getProducts = async ({ searchKeyword = '' }) => {
@@ -47,6 +46,125 @@ export const getProduct = async (id) => {
   }
 };
 
+export const createProduct = async () => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(`${apiUrl}/api/products`, options);
+    const json = await response.json();
+    if (response.status !== 201) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in create product', err.message);
+    return { error: err.message };
+  }
+};
+
+export const createReview = async (productId, review) => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(review),
+  };
+  try {
+    const response = await fetch(
+      `${apiUrl}/api/products/${productId}/reviews`,
+      options
+    );
+    const json = await response.json();
+    if (response.status !== 201) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in create review', err.message);
+    return { error: err.message };
+  }
+};
+
+export const uploadProductImage = async (bodyFormData) => {
+  const options = {
+    method: 'POST',
+
+    body: bodyFormData,
+  };
+  console.log(bodyFormData);
+  try {
+    const response = await fetch(`${apiUrl}/upload`, options);
+    const json = await response.json();
+    if (response.status !== 201) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in create review', err.message);
+    return { error: err.message };
+  }
+};
+
+export const updateProduct = async (product) => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(product),
+  };
+  try {
+    const response = await fetch(
+      `${apiUrl}/api/products/${product._id}`,
+      options
+    );
+    const json = await response.json();
+    if (response.status !== 200) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in update product', err.message);
+    return { error: err.message };
+  }
+};
+
+export const deleteProduct = async (productId) => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(
+      `${apiUrl}/api/products/${productId}`,
+      options
+    );
+    const json = await response.json();
+    if (response.status !== 200) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in delete product', err.message);
+    return { error: err.message };
+  }
+};
+
 // Order API
 export const getOrder = async (id) => {
   const { token } = getUserInfo();
@@ -86,8 +204,28 @@ export const getMyOrders = async () => {
     }
     return json;
   } catch (err) {
-    console.log('Error in get order', err);
-    hideLoading();
+    console.log('Error in get my orders', err);
+    return { error: err.message };
+  }
+};
+export const getOrders = async () => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(`${apiUrl}/api/orders`, options);
+    const json = await response.json();
+    if (response.status !== 200) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in get orders', err);
     return { error: err.message };
   }
 };
@@ -134,7 +272,53 @@ export const payOrder = async (orderId, paymentResult) => {
     }
     return json;
   } catch (err) {
-    console.log('Error in create order', err.message);
+    console.log('Error in pay order', err.message);
+    return { error: err.message };
+  }
+};
+export const deliverOrder = async (orderId) => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(
+      `${apiUrl}/api/orders/${orderId}/deliver`,
+      options
+    );
+    const json = await response.json();
+    if (response.status !== 200) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in deliver order', err.message);
+    return { error: err.message };
+  }
+};
+
+export const deleteOrder = async (orderId) => {
+  const { token } = getUserInfo();
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(`${apiUrl}/api/orders/${orderId}`, options);
+    const json = await response.json();
+    if (response.status !== 200) {
+      throw new Error(json.message);
+    }
+    return json;
+  } catch (err) {
+    console.log('Error in delete order', err.message);
     return { error: err.message };
   }
 };

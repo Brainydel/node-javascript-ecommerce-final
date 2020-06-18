@@ -41,7 +41,7 @@ const SigninScreen = {
               <h2>Sign-In</h2>
             </li>
             <li>
-              <label htmlFor="email">Email</label>
+              <label for="email">Email</label>
               <input
                 type="email"
                 name="email"
@@ -49,7 +49,7 @@ const SigninScreen = {
               />
             </li>
             <li>
-              <label htmlFor="password">Password</label>
+              <label for="password">Password</label>
               <input
                 type="password"
                 id="password"
@@ -58,17 +58,13 @@ const SigninScreen = {
               />
             </li>
             <li>
-              <button type="submit" class="button primary">
+              <button type="submit" class="primary">
                 Signin
               </button>
             </li>
             <li>
-            <div>New User? <a
-            href="/#/register"
-            class="button secondary text-center"
-          >
-            Create your account
-          </a>
+            <div>New User? 
+            <a href="/#/register">Create your account</a>
           <div>
           </li>
              

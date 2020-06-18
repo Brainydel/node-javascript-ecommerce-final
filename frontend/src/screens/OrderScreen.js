@@ -3,8 +3,10 @@ import {
   showLoading,
   hideLoading,
   rerender,
+  showMessage,
 } from '../utils.js';
-import { getOrder, getPaypalClientID, payOrder } from '../api.js';
+import { getOrder, getPaypalClientID, payOrder, deliverOrder } from '../api.js';
+import { getUserInfo } from '../localStorage.js';
 
 let order = null;
 // https://developer.paypal.com/docs/archive/checkout/integrate
@@ -65,7 +67,9 @@ const handlePayment = (clientID) => {
             paymentID: data.paymentID,
           });
           hideLoading();
-          rerender(OrderScreen);
+          showMessage('Payment Was Successfully.', () => {
+            rerender(OrderScreen);
+          });
         });
       },
     },
@@ -79,10 +83,20 @@ const OrderScreen = {
     if (!order.isPaid) {
       addPaypalSdk();
     }
+    if (document.getElementById('deliver-order-button')) {
+      document
+        .getElementById('deliver-order-button')
+        .addEventListener('click', async () => {
+          await deliverOrder(order._id);
+          showMessage('Order Delivered.');
+          rerender(OrderScreen);
+        });
+    }
   },
   render: async () => {
     const request = parseRequestURL();
     order = await getOrder(request.id);
+    const { isAdmin } = getUserInfo();
 
     return `
       <div>
@@ -90,24 +104,24 @@ const OrderScreen = {
           <div class="placeorder-info">
             <div>
               <h3>Shipping</h3>
-              <div>
+              <p>
                 ${order.shipping.address}, ${order.shipping.city},
                 ${order.shipping.postalCode}, ${order.shipping.country},
-              </div>
-              <div>
+              </p>
+              <p>
                 ${
                   order.isDelivered
                     ? `Delivered at ${order.deliveredAt}`
                     : 'Not Delivered.'
                 }
-              </div>
+              </p>
             </div>
             <div>
               <h3>Payment</h3>
-              <div>Payment Method: ${order.payment.paymentMethod}</div>
-              <div>
+              <p>Payment Method: ${order.payment.paymentMethod}</p>
+              <p>
                 ${order.isPaid ? `Paid at ${order.paidAt}` : 'Not Paid.'}
-              </div>
+              </p>
             </div>
             <div>
               <ul class="cart-list-container">
@@ -162,6 +176,13 @@ const OrderScreen = {
               </li> 
               <li class="placeorder-actions-payment">
                 ${!order.isPaid ? `<div id="paypal-button"></div>` : ''}
+              </li>
+              <li  >
+                ${
+                  order.isPaid && !order.isDelivered && isAdmin
+                    ? `<button id="deliver-order-button" class="primary fw">Deliver Order</button>`
+                    : ''
+                }
               </li>
             </ul>
           </div>

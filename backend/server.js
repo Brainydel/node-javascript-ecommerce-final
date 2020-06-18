@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
+import fileUpload from 'express-fileupload';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import config from './config';
@@ -37,6 +38,25 @@ app.use((err, req, res, next) => {
   const status = err.name && err.name === 'ValidationError' ? 400 : 500;
   res.status(status);
   res.send({ message: err.message });
+});
+// upload
+
+const uploads = path.join(__dirname, '/../uploads');
+app.use('/uploads', express.static(uploads));
+
+app.use(fileUpload());
+app.post('/upload', (req, res) => {
+  console.log(req.files);
+  if (!req.files || Object.keys(req.files).length === 0) {
+    res.status(400).send('No files were uploaded.');
+  } else {
+    const { image } = req.files;
+    const filename = `${new Date().getTime()}.jpg`;
+    image.mv(`${uploads}/${filename}`, (err) => {
+      if (err) res.status(500).send({ message: err });
+      else res.status(201).send({ image: `/uploads/${filename}` });
+    });
+  }
 });
 
 app.listen(config.PORT, () => {

@@ -16,6 +16,9 @@ import PaymentScreen from './screens/PaymentScreen.js';
 import PlaceOrderScreen from './screens/PlaceOrderScreen.js';
 import OrderScreen from './screens/OrderScreen.js';
 import Aside from './components/Aside.js';
+import ProductListScreen from './screens/ProductListScreen.js';
+import ProductEditScreen from './screens/ProductEditScreen.js';
+import OrderListScreen from './screens/OrderListScreen.js';
 
 // List of all routes.
 const routes = {
@@ -28,6 +31,9 @@ const routes = {
   '/payment': PaymentScreen,
   '/placeorder': PlaceOrderScreen,
   '/product/:id': ProductScreen,
+  '/product/:id/edit': ProductEditScreen,
+  '/productlist': ProductListScreen,
+  '/orderlist': OrderListScreen,
   '/order/:id': OrderScreen,
   '/cart/:id': CartScreen,
   '/cart': CartScreen,
