@@ -2,14 +2,12 @@ import {
   getCartItems,
   getShipping,
   getPayment,
-  removeCart,
+  cleanCart,
 } from '../localStorage.js';
 import CheckoutSteps from '../components/CheckoutSteps.js';
 import { createOrder } from '../api.js';
-import { rerender } from '../utils.js';
+import { showLoading, hideLoading } from '../utils.js';
 
-let loading = false;
-let error = false;
 const convertCartToOrder = () => {
   const orderItems = getCartItems();
   if (orderItems.length === 0) document.location.hash = '/cart';
@@ -20,7 +18,7 @@ const convertCartToOrder = () => {
 
   const itemsPrice = orderItems.reduce((a, c) => a + c.price * c.qty, 0);
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const taxPrice = 0.15 * itemsPrice;
+  const taxPrice = Math.round(0.15 * itemsPrice * 100) / 100;
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
   return {
     shipping,
@@ -34,16 +32,13 @@ const convertCartToOrder = () => {
 };
 const placeOrder = async () => {
   const order = convertCartToOrder();
+  showLoading();
   const data = await createOrder(order);
-  console.log(data);
+  hideLoading();
   if (data.error) {
-    error = data.error;
-    loading = false;
-    rerender(PlaceOrderScreen);
+    showLoading(data.error);
   } else {
-    error = false;
-    loading = false;
-    removeCart();
+    cleanCart();
     document.location.hash = `/order/${data.data._id}`;
   }
 };
@@ -104,7 +99,7 @@ const PlaceOrderScreen = {
                       </div>
                       <div class="cart-name">
                         <div>
-                          <a href="{'/product/' + item.product}">
+                          <a href="/#/product/${item.product}">
                             ${item.name}
                           </a>
                         </div>
@@ -118,19 +113,7 @@ const PlaceOrderScreen = {
             </div>
           </div>
           <div class="placeorder-action">
-            <ul>
-            <li>
-            ${loading ? '<div>Loading...</div>' : ''}
-            ${error ? `<div class="error">${error}</div>` : ''}         
-            </li>
-              <li>
-                <button
-                  class="primary full-width"
-                  id="placeorder-button"
-                >
-                  Place Order
-                </button>
-              </li>
+            <ul>              
               <li>
                 <h3>Order Summary</h3>
               </li>
@@ -146,9 +129,17 @@ const PlaceOrderScreen = {
                 <div>Tax</div>
                 <div>$${taxPrice}</div>
               </li>
-              <li>
+              <li class="total">
                 <div>Order Total</div>
                 <div>$${totalPrice}</div>
+              </li>
+              <li>
+                <button
+                  class="primary full-width"
+                  id="placeorder-button"
+                >
+                  Place Order
+                </button>
               </li>
             </ul>
           </div>

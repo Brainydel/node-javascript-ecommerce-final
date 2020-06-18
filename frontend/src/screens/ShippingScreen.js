@@ -1,7 +1,6 @@
 import CheckoutSteps from '../components/CheckoutSteps.js';
 import { getShipping, setShipping } from '../localStorage.js';
 
-const { address, city, postalCode, country } = getShipping();
 const ShippingScreen = {
   after_render: () => {
     document.getElementById('shipping-form').addEventListener('submit', (e) => {
@@ -16,6 +15,7 @@ const ShippingScreen = {
     });
   },
   render: () => {
+    const { address, city, postalCode, country } = getShipping();
     return `
     <div>
       ${CheckoutSteps.render({ step1: true, step2: true })}

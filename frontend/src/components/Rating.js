@@ -2,8 +2,8 @@ const Rating = {
   render: (props) => {
     if (!props.value) {
       return `<div></div>`;
-    } else {
-      return `
+    }
+    return `
 <div class="rating">
   <span>
     <i class="${props.value >= 1 ? 'fa fa-star' : 'fa fa-star-o'}"  ></i>
@@ -54,7 +54,6 @@ const Rating = {
 </span>
 <span>${props.text || ''}</span>
 </div>`;
-    }
   },
 };
 export default Rating;

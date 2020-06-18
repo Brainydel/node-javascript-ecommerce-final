@@ -1,9 +1,13 @@
-import { rerender, redirectUser, isLoggedIn } from '../utils.js';
+import {
+  redirectUser,
+  isLoggedIn,
+  showLoading,
+  hideLoading,
+  showMessage,
+} from '../utils.js';
 import { signin } from '../api.js';
 import { setUserInfo } from '../localStorage.js';
 
-let loading = false;
-let error = false;
 const SigninScreen = {
   after_render: () => {
     if (isLoggedIn()) {
@@ -15,19 +19,15 @@ const SigninScreen = {
       .getElementById('signin-form')
       .addEventListener('submit', async (e) => {
         e.preventDefault();
-        loading = true;
-        rerender(SigninScreen);
+        showLoading();
         const data = await signin({
           email: document.getElementById('email').value,
           password: document.getElementById('password').value,
         });
+        hideLoading();
         if (data.error) {
-          error = data.error;
-          loading = false;
-          rerender(SigninScreen);
+          showMessage(data.error);
         } else {
-          error = false;
-          loading = false;
           setUserInfo(data);
           redirectUser();
         }
@@ -39,10 +39,6 @@ const SigninScreen = {
           <ul class="form-container">
             <li>
               <h2>Sign-In</h2>
-            </li>
-            <li>
-              ${loading ? '<div>Loading...</div>' : ''}
-              ${error ? `<div class="error">${error}</div>` : ''}
             </li>
             <li>
               <label htmlFor="email">Email</label>
@@ -58,6 +54,7 @@ const SigninScreen = {
                 type="password"
                 id="password"
                 name="password" 
+                autocomplete="on"
               />
             </li>
             <li>

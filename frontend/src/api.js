@@ -1,5 +1,6 @@
 import { apiUrl } from './config.js';
 import { getUserInfo } from './localStorage.js';
+import { hideLoading } from './utils.js';
 
 // Product API
 export const getProducts = async ({ searchKeyword = '' }) => {
@@ -86,6 +87,7 @@ export const getMyOrders = async () => {
     return json;
   } catch (err) {
     console.log('Error in get order', err);
+    hideLoading();
     return { error: err.message };
   }
 };
@@ -178,8 +180,8 @@ export const register = async ({ name, email, password }) => {
     return { error: err.message };
   }
 };
-export const update = async ({ userId, name, email, password }) => {
-  const { token } = getUserInfo();
+export const update = async ({ name, email, password }) => {
+  const { _id: userId, token } = getUserInfo();
   const options = {
     method: 'PUT',
     headers: {

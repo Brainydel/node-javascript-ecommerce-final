@@ -13,9 +13,21 @@
   </head>
 
   <body>
-    <div class="loading-overlay">Loading...</div>
+    <div class="loading-overlay" id="loading-overlay">Loading...</div>
+    <div class="loading-overlay" id="message-overlay">
+      <div>
+        <div id="message-overlay-content"></div>
+        <button
+          onclick="document.getElementById('message-overlay').classList.remove('active')"
+        >
+          OK
+        </button>
+      </div>
+      <br />
+    </div>
     <div class="grid-container">
       <header id="header_container"></header>
+      <aside id="aside_container"></aside>
       <main id="content_container"></main>
       <footer id="footer_container"></footer>
     </div>

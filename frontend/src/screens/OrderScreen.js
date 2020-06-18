@@ -126,7 +126,7 @@ const OrderScreen = {
                           </div>
                           <div class="cart-name">
                             <div>
-                              <a to="${`/product/${item.product}`}">
+                              <a href="/#/product/${item.product}">
                                 ${item.name}
                               </a>
                             </div>
@@ -141,9 +141,6 @@ const OrderScreen = {
           </div>
           <div class="placeorder-action">
             <ul>
-              <li class="placeorder-actions-payment">
-                ${!order.isPaid ? `<div id="paypal-button"></div>` : ''}
-              </li>
               <li>
                 <h3>Order Summary</h3>
               </li>
@@ -159,9 +156,12 @@ const OrderScreen = {
                 <div>Tax</div>
                 <div>$${order.taxPrice}</div>
               </li>
-              <li>
+              <li class="total">
                 <div>Order Total</div>
                 <div>$${order.totalPrice}</div>
+              </li> 
+              <li class="placeorder-actions-payment">
+                ${!order.isPaid ? `<div id="paypal-button"></div>` : ''}
               </li>
             </ul>
           </div>

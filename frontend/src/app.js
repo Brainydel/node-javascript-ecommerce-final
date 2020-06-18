@@ -15,6 +15,7 @@ import ProfileScreen from './screens/ProfileScreen.js';
 import PaymentScreen from './screens/PaymentScreen.js';
 import PlaceOrderScreen from './screens/PlaceOrderScreen.js';
 import OrderScreen from './screens/OrderScreen.js';
+import Aside from './components/Aside.js';
 
 // List of all routes.
 const routes = {
@@ -37,12 +38,15 @@ const router = async () => {
   showLoading();
   // Lazy load view element:
   const header = document.getElementById('header_container');
+  const aside = document.getElementById('aside_container');
   const content = document.getElementById('content_container');
   const footer = document.getElementById('footer_container');
 
   // Render the Header and footer of the page
   header.innerHTML = await Header.render();
   await Header.after_render();
+  aside.innerHTML = await Aside.render();
+  await Aside.after_render();
   footer.innerHTML = await Footer.render();
   await Footer.after_render();
 

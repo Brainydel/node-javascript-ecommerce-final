@@ -1,13 +1,12 @@
-import { rerender, redirectUser, isLoggedIn } from '../utils.js';
+import {
+  redirectUser,
+  isLoggedIn,
+  showLoading,
+  showMessage,
+  hideLoading,
+} from '../utils.js';
 import { register } from '../api.js';
 import { setUserInfo } from '../localStorage.js';
-
-let name = '';
-let email = '';
-let password = '';
-let rePassword = '';
-let loading = false;
-let error = false;
 
 const RegisterScreen = {
   after_render: () => {
@@ -20,20 +19,16 @@ const RegisterScreen = {
       .getElementById('register-form')
       .addEventListener('submit', async (e) => {
         e.preventDefault();
-        loading = true;
-        rerender(RegisterScreen);
-        name = document.getElementById('name').value;
-        email = document.getElementById('email').value;
-        password = document.getElementById('password').value;
-        rePassword = document.getElementById('re-password').value;
-        const data = await register({ name, email, password });
+        showLoading();
+        const data = await register({
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+        });
+        hideLoading();
         if (data.error) {
-          error = data.error;
-          loading = false;
-          rerender(RegisterScreen);
+          showMessage(data.error);
         } else {
-          error = false;
-          loading = false;
           setUserInfo(data);
           redirectUser();
         }
@@ -45,17 +40,12 @@ const RegisterScreen = {
           <ul class="form-container">
             <li>
               <h2>Create Account</h2>
-            </li>
-            <li>
-              ${loading ? '<div>Loading...</div>' : ''}
-              ${error ? `<div class="error">${error}</div>` : ''}
-            </li>
+            </li> 
             <li>
               <label htmlFor="name">Name</label>
               <input
                 type="name"
-                name="name"
-                value="${name}"
+                name="name" 
                 required
                 id="name" />
             </li>
@@ -65,8 +55,7 @@ const RegisterScreen = {
                 type="email"
                 name="email"
                 id="email"   
-                required             
-                value="${email}"
+                required          
                 />
             </li>
             <li>
@@ -75,8 +64,8 @@ const RegisterScreen = {
                 type="password"
                 id="password"
                 name="password"
-                required       
-                value="${password}"
+                required        
+                autocomplete="on"
                 />
             </li>
             <li>
@@ -86,7 +75,7 @@ const RegisterScreen = {
                 id="re-password"
                 name="re-password"
                 required            
-                value="${rePassword}"
+                autocomplete="on"
                 />
             </li>
             <li>

@@ -37,10 +37,14 @@ export const isLoggedIn = () => {
   return !!getUserInfo().email;
 };
 export const showLoading = () => {
-  document.getElementsByClassName('loading-overlay')[0].classList.add('active');
+  document.getElementById('loading-overlay').classList.add('active');
 };
+
 export const hideLoading = () => {
-  document
-    .getElementsByClassName('loading-overlay')[0]
-    .classList.remove('active');
+  document.getElementById('loading-overlay').classList.remove('active');
+};
+
+export const showMessage = (message) => {
+  document.getElementById('message-overlay-content').innerHTML = message;
+  document.getElementById('message-overlay').classList.add('active');
 };

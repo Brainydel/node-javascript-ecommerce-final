@@ -5,7 +5,7 @@ export const getUserInfo = () => {
     : { name: '', email: '', password: '' };
   return userInfo;
 };
-export const removeAllInfo = () => {
+export const cleanUser = () => {
   localStorage.removeItem('userInfo');
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shipping');
@@ -40,10 +40,8 @@ export const getShipping = () => {
     : { city: '', country: '', address: '', postalCode: '' };
   return cartItems;
 };
-export const removeCart = () => {
+export const cleanCart = () => {
   localStorage.removeItem('cartItems');
-  localStorage.removeItem('shipping');
-  localStorage.removeItem('payment');
 };
 export const setShipping = ({
   address = '',

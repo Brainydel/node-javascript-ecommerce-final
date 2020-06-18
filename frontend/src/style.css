@@ -48,6 +48,18 @@ button.secondary {
   align-items: center;
   color: #ffffff;
 }
+.loading-overlay > div {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-width: 40rem;
+}
+.loading-overlay > div > * {
+  margin: 2rem;
+}
 
 .full-width {
   width: 100%;
@@ -117,6 +129,52 @@ form.search-form::after {
   clear: both;
   display: table;
 }
+/* Aside */
+aside {
+  position: fixed;
+  width: 30rem;
+  background-color: #ffffff;
+  height: 100%;
+  z-index: 1;
+  transform: translateX(-30.1rem);
+  transition: all 0.5s;
+  border-right: 0.1rem #808080 solid;
+}
+aside.open {
+  transform: translateX(0);
+}
+.aside-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0.5rem 1rem 2rem;
+  color: #808080;
+}
+
+.aside-close-button {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+}
+.categories > li > a {
+  display: flex;
+  padding: 1rem;
+  padding-left: 2rem;
+  justify-content: space-between;
+}
+.categories > li > a > span {
+  font-size: 1.4rem;
+  color: #808080;
+}
+.categories > li > a:hover span {
+  color: #444444;
+}
+.categories > li > a:hover {
+  background-color: #f0f0f0;
+  color: #444444;
+}
 
 main {
   grid-area: main;
@@ -184,9 +242,6 @@ a:hover {
 }
 .product-price span {
   font-size: 1.2rem;
-}
-.product-rating {
-  margin-bottom: 1rem;
 }
 
 /* Sidebar */
@@ -449,7 +504,7 @@ td {
   justify-content: space-between;
   margin-bottom: 1rem;
 }
-.placeorder-action > ul > li:last-child {
+.placeorder-action .total {
   font-size: 2rem;
   font-weight: bold;
   color: #c04000;

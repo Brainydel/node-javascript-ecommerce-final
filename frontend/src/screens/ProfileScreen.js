@@ -1,50 +1,34 @@
-import { rerender } from '../utils.js';
+import { showLoading, hideLoading, showMessage } from '../utils.js';
 import { update, getMyOrders } from '../api.js';
-import { getUserInfo, setUserInfo, removeAllInfo } from '../localStorage.js';
+import { getUserInfo, setUserInfo, cleanUser } from '../localStorage.js';
 
-let { _id: userId, name, email, password } = getUserInfo();
-let loading = false;
-let error = false;
-let success = false;
 const ProfileScreen = {
   after_render: () => {
-    if (!email) {
-      document.location.hash = '/signin';
-    }
     document.getElementById('logout-button').addEventListener('click', () => {
-      removeAllInfo();
-      document.location.hash = '/';
+      cleanUser();
+      document.location.href = '/';
     });
     document
       .getElementById('profile-form')
       .addEventListener('submit', async (e) => {
         e.preventDefault();
-        loading = true;
-        rerender(ProfileScreen);
-        name = document.getElementById('name').value;
-        email = document.getElementById('email').value;
-        password = document.getElementById('password').value;
-
+        showLoading();
         const data = await update({
-          userId,
-          email,
-          name,
-          password,
+          email: document.getElementById('email').value,
+          name: document.getElementById('name').value,
+          password: document.getElementById('password').value,
         });
+        hideLoading();
         if (data.error) {
-          error = data.error;
-          loading = false;
-          rerender(ProfileScreen);
+          showMessage(data.error);
         } else {
-          error = false;
-          loading = false;
-          success = 'Profile Updated Successfully.';
           setUserInfo(data);
-          rerender(ProfileScreen);
+          document.location.reload();
         }
       });
   },
   render: async () => {
+    const { name, email } = getUserInfo();
     const orders = await getMyOrders();
     return `
       <div class="profile">
@@ -55,10 +39,7 @@ const ProfileScreen = {
                 <li>
                   <h2>User Profile</h2>
                 </li>
-                <li>
-              ${loading ? '<div>Loading...</div>' : ''}
-              ${error ? `<div class="error">${error}</div>` : ''}
-              ${success ? `<div class="success">${success}</div>` : ''}
+                <li> 
             </li>
                 <li>
                   <label htmlFor="name">Name</label>
@@ -83,7 +64,7 @@ const ProfileScreen = {
                   <input 
                     type="password"
                     id="password"
-                    name="password" />
+                    name="password" autocomplete="on" />
                 </li>
 
                 <li>
@@ -118,9 +99,12 @@ const ProfileScreen = {
               </tr>
             </thead>
             <tbody>
-              ${orders
-                .map(
-                  (order) => `
+              ${
+                orders.length === 0
+                  ? `<tr><td colspan="6">No Order Found</td></tr>`
+                  : orders
+                      .map(
+                        (order) => `
                 <tr>
                   <td>${order._id}</td>
                   <td>${order.createdAt}</td>
@@ -131,8 +115,9 @@ const ProfileScreen = {
                     <a href="/#/order/${order._id}">DETAILS</a>
                   </td>
                 </tr>`
-                )
-                .join('\n')}
+                      )
+                      .join('\n')
+              }
             </tbody>
           </table>
         </div>  

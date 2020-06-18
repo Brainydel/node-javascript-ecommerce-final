@@ -32,6 +32,12 @@ app.use(express.static(path.join(__dirname, '/../frontend/src')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/../frontend/src/index.html`));
 });
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const status = err.name && err.name === 'ValidationError' ? 400 : 500;
+  res.status(status);
+  res.send({ message: err.message });
+});
 
 app.listen(config.PORT, () => {
   console.log('Server started at http://localhost:5000');

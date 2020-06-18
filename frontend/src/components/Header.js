@@ -4,9 +4,9 @@ import { parseRequestURL } from '../utils.js';
 const Header = {
   render: async () => {
     const { value } = parseRequestURL();
-    const view = ` 
+    return ` 
       <div class="brand">
-        <button onClick={openMenu}>
+        <button id="aside-open-button">
           &#9776;
         </button>
         <a href="/#/" >amazona</a>
@@ -22,7 +22,6 @@ const Header = {
         <a href="/#/cart">Cart</a>
       </div> 
         `;
-    return view;
   },
   after_render: async () => {
     const { name } = getUserInfo();
@@ -37,6 +36,11 @@ const Header = {
         e.preventDefault();
         const searchKeyword = document.getElementById('q').value;
         document.location.hash = `/?q=${searchKeyword}`;
+      });
+    document
+      .getElementById('aside-open-button')
+      .addEventListener('click', async () => {
+        document.getElementById('aside_container').classList.add('open');
       });
   },
 };
