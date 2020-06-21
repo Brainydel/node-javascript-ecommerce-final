@@ -88,7 +88,7 @@ const ProductEditScreen = {
                    />
                 </li>
                 <li>
-                  <label for="image">Image</label>
+                  <label for="image">Image (680 x 830)</label>
                   <input
                     type="text"
                     name="image"
