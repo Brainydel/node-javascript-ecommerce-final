@@ -8,7 +8,7 @@ import RegisterScreen from './screens/RegisterScreen.js';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 
-import { parseRequestURL, showLoading, hideLoading } from './utils.js';
+import { parseRequestUrl, showLoading, hideLoading } from './utils.js';
 import SigninScreen from './screens/SigninScreen.js';
 import ShippingScreen from './screens/ShippingScreen.js';
 import ProfileScreen from './screens/ProfileScreen.js';
@@ -20,7 +20,7 @@ import ProductListScreen from './screens/ProductListScreen.js';
 import ProductEditScreen from './screens/ProductEditScreen.js';
 import OrderListScreen from './screens/OrderListScreen.js';
 
-// List of all routes.
+// List of all routes.s
 const routes = {
   '/': HomeScreen,
   '/about': AboutScreen,
@@ -39,13 +39,13 @@ const routes = {
   '/cart': CartScreen,
 };
 
-// Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
+// Takes a URL, checks against the list of supported routes and then renders the corresponding main page.
 const router = async () => {
   showLoading();
   // Lazy load view element:
   const header = document.getElementById('header_container');
   const aside = document.getElementById('aside_container');
-  const content = document.getElementById('content_container');
+  const main = document.getElementById('main_container');
   const footer = document.getElementById('footer_container');
 
   // Render the Header and footer of the page
@@ -57,18 +57,18 @@ const router = async () => {
   await Footer.after_render();
 
   // Get the parsed URl from the addressbar
-  const request = parseRequestURL();
+  const request = parseRequestUrl();
 
   // Parse the URL and if it has an id part, change it with the string ":id"
-  const parsedURL =
+  const parsedUrl =
     (request.resource ? `/${request.resource}` : '/') +
     (request.id ? '/:id' : '') +
     (request.verb ? `/${request.verb}` : '');
 
   // Get the page from our hash of supported routes.
   // If the parsed URL is not in our list of supported routes, select the 404 page instead
-  const screen = routes[parsedURL] ? routes[parsedURL] : Error404;
-  content.innerHTML = await screen.render();
+  const screen = routes[parsedUrl] ? routes[parsedUrl] : Error404;
+  main.innerHTML = await screen.render();
   await screen.after_render();
   hideLoading();
 };

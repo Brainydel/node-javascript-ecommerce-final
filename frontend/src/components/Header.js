@@ -1,9 +1,9 @@
 import { getUserInfo } from '../localStorage.js';
-import { parseRequestURL } from '../utils.js';
+import { parseRequestUrl } from '../utils.js';
 
 const Header = {
   render: async () => {
-    const { value } = parseRequestURL();
+    const { value } = parseRequestUrl();
     return ` 
       <div class="brand">
         <button id="aside-open-button">

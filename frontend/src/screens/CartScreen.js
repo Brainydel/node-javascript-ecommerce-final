@@ -1,4 +1,4 @@
-import { rerender, parseRequestURL } from '../utils.js';
+import { rerender, parseRequestUrl } from '../utils.js';
 import { getProduct } from '../api.js';
 import { getCartItems, setCartItems } from '../localStorage.js';
 
@@ -21,7 +21,7 @@ const addToCart = (item, force = false) => {
 };
 const removeFromCart = (id) => {
   setCartItems(getCartItems().filter((x) => x.product !== id));
-  if (id === parseRequestURL().id) {
+  if (id === parseRequestUrl().id) {
     document.location.hash = '/cart';
   } else {
     rerender(CartScreen);
@@ -48,7 +48,7 @@ const CartScreen = {
     });
   },
   render: async () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     if (request.id) {
       const product = await getProduct(request.id);
       addToCart({

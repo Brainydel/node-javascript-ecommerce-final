@@ -1,5 +1,5 @@
 import {
-  parseRequestURL,
+  parseRequestUrl,
   showLoading,
   hideLoading,
   rerender,
@@ -94,7 +94,7 @@ const OrderScreen = {
     }
   },
   render: async () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     order = await getOrder(request.id);
     const { isAdmin } = getUserInfo();
 

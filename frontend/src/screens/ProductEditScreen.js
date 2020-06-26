@@ -1,6 +1,6 @@
 import { getProduct, updateProduct, uploadProductImage } from '../api.js';
 import {
-  parseRequestURL,
+  parseRequestUrl,
   showLoading,
   hideLoading,
   showMessage,
@@ -8,7 +8,7 @@ import {
 
 const ProductEditScreen = {
   after_render: () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     document
       .getElementById('edit-product-form')
       .addEventListener('submit', async (e) => {
@@ -49,7 +49,7 @@ const ProductEditScreen = {
       });
   },
   render: async () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     const {
       name,
       price,

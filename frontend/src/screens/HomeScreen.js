@@ -1,10 +1,10 @@
 import { getProducts } from '../api.js';
-import { parseRequestURL } from '../utils.js';
+import { parseRequestUrl } from '../utils.js';
 import Rating from '../components/Rating.js';
 
 const HomeScreen = {
   render: async () => {
-    const { value } = parseRequestURL();
+    const { value } = parseRequestUrl();
     const products = await getProducts({ searchKeyword: value });
     if (!products.length) {
       return '<div class="message">No product found.</div>';

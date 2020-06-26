@@ -1,6 +1,6 @@
 import { getUserInfo } from './localStorage.js';
 
-export const parseRequestURL = () => {
+export const parseRequestUrl = () => {
   const address = document.location.hash.slice(1).split('?')[0];
   const queryString =
     document.location.hash.slice(1).split('?').length === 2

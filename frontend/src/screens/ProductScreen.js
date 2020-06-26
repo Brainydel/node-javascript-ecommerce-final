@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import {
-  parseRequestURL,
+  parseRequestUrl,
   showLoading,
   showMessage,
   rerender,
@@ -12,7 +12,7 @@ import { getUserInfo } from '../localStorage.js';
 
 const ProductScreen = {
   after_render: async () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     document.getElementById('add-button').addEventListener('click', () => {
       document.location.hash = `/cart/${request.id}`;
     });
@@ -38,7 +38,7 @@ const ProductScreen = {
     }
   },
   render: async () => {
-    const request = parseRequestURL();
+    const request = parseRequestUrl();
     const product = await getProduct(request.id);
     const userInfo = getUserInfo();
 
