@@ -48,7 +48,7 @@ const ProductScreen = {
         <a href="/#">Back to result</a>
       </div>
       <div class="details">
-          <div class="details-image">
+           <div class="details-image">
               <img src="${product.image}" alt="product" />
            </div>
            <div class="details-info">
@@ -92,7 +92,9 @@ const ProductScreen = {
                 </li>
               </ul>
             </div>
-            <div> 
+            
+          </div>
+          <div> 
             <h2>Reviews</h2>
             ${
               product.reviews.length === 0
@@ -150,10 +152,8 @@ const ProductScreen = {
                       Please <a href="/#/signin">Signin</a> to write a review.
                     </div>`
                 }
-
               </li>
             </ul> 
-            </div>
           </div>
         `;
   },
