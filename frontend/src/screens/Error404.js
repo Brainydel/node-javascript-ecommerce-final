@@ -1,11 +1,12 @@
-let Error404 = {
+const Error404 = {
   render: async () => {
-    let view = /*html*/ `
-            <section class="section">
+    return `<div class="message">
                 <h1> 404 Error </h1>
-            </section>
+                <p>
+                Page Not Found!
+                </p>
+            </div>
         `;
-    return view;
   },
   after_render: async () => {},
 };
