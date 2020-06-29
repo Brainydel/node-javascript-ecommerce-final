@@ -31,9 +31,9 @@ app.get('/api/paypal/clientId', (req, res) => {
 
 const uploads = path.join(__dirname, '/../uploads');
 app.use('/uploads', express.static(uploads));
-app.use(express.static(path.join(__dirname, '/../frontend/src')));
+app.use(express.static(path.join(__dirname, '/../frontend')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/../frontend/src/index.html`));
+  res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
 });
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {

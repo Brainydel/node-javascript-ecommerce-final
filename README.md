@@ -111,30 +111,41 @@ Hello, I am Basir Jafarzadeh and I'll be your instructor in this course.
    2. make render async
    3. fetch products from '/api/products' in render()
    4. make router() async and call await HomeScreen.render()
-8. Install Babel For ES6 Syntax
+8. Add Webpack
+   1. npm install -D webpack webpack-cli webpack-dev-server
+   2. npm uninstall live-server
+   3. "start": "webpack-dev-server --mode development --watch-content-base --open"
+   4. "build": "webpack --mode=production --output ./main.js"
+   5. move index.html, style.css and images to frontend folder
+   6. rename app.js to index.js
+   7. update index.html
+   8. add <script src="main.js"></script> before </body>
+   9. npm install axios
+   10. change fetch to axios in HomeScreen
+9. Install Babel For ES6 Syntax
    1. npm install -D babel core, cli, node, preset-env
    2. Create .babelrc and set presets to @babel/preset-env
    3. npm install -D nodemon
    4. set start: nodemon --watch backend --exec babel-node backend/server.js
    5. convert require to import in server.js
    6. npm start
-9. Enable Code Linting
-   1. npm install -D eslint
-   2. install VSCode eslint extension
-   3. create .eslintrc and set module.exports for env to node
-   4. Set VSCode setting for editor.codeActionsOnSave source.fixAll.eslint to true
-   5. check result for linting error
-   6. npm install eslint-config-airbnb-base and eslint-plugin-import
-   7. set extends to airbnb-base
-   8. set parserOptions to ecmaVersion 11 and sourceType to module
-   9. set rules for no-console to 0 to ignore linting error
-10. Install VSCode Extension
+10. Enable Code Linting
+11. npm install -D eslint
+12. install VSCode eslint extension
+13. create .eslintrc and set module.exports for env to node
+14. Set VSCode setting for editor.codeActionsOnSave source.fixAll.eslint to true
+15. check result for linting error
+16. npm install eslint-config-airbnb-base and eslint-plugin-import
+17. set extends to airbnb-base
+18. set parserOptions to ecmaVersion 11 and sourceType to module
+19. set rules for no-console to 0 to ignore linting error
+20. Install VSCode Extension
     1. JavaScript (ES6) code snippets
     2. ES7 React/Redux/GraphQL/React-Native snippets
     3. Prettier - Code formatter
     4. HTML&LESS grammar injections
     5. CSS Peek
-11. Create Rating Component
+21. Create Rating Component
     1. create components/Rating.js
     2. create div.rating
     3. link to fontawesome.css in index.html
@@ -144,7 +155,7 @@ Hello, I am Basir Jafarzadeh and I'll be your instructor in this course.
     7. last span for props.text || ''
     8. style div.rating, span and last span
     9. Add div.product-rating and use Rating component
-12. Product Screen
+22. Product Screen
     1. get product id from request
     2. implement /api/product/:id api
     3. send Ajax request to product api
@@ -158,29 +169,9 @@ Hello, I am Basir Jafarzadeh and I'll be your instructor in this course.
     11. after_render() to add event to the button
     12. redirect user to cart/:product_id
     13.
-13. Shopping Cart Screen
+23. Shopping Cart Screen
     1. step 1
-14. Update Shopping Cart
-    1. step 1
-15. Create Url Router
-    1. step 1
-16. Create Url Router
-    1. step 1
-17. Create Url Router
-    1. step 1
-18. Create Url Router
-    1. step 1
-19. Create Url Router
-    1. step 1
-20. Create Url Router
-    1. step 1
-21. Create Url Router
-    1. step 1
-22. Create Url Router
-    1. step 1
-23. Create Url Router
-    1. step 1
-24. Create Url Router
+24. Update Shopping Cart
     1. step 1
 25. Create Url Router
     1. step 1
@@ -243,6 +234,26 @@ Hello, I am Basir Jafarzadeh and I'll be your instructor in this course.
 54. Create Url Router
     1. step 1
 55. Create Url Router
+    1. step 1
+56. Create Url Router
+    1. step 1
+57. Create Url Router
+    1. step 1
+58. Create Url Router
+    1. step 1
+59. Create Url Router
+    1. step 1
+60. Create Url Router
+    1. step 1
+61. Create Url Router
+    1. step 1
+62. Create Url Router
+    1. step 1
+63. Create Url Router
+    1. step 1
+64. Create Url Router
+    1. step 1
+65. Create Url Router
     1. step 1
 
 ## Video 01: Design Website Template

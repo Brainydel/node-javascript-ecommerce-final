@@ -1,26 +1,24 @@
+import axios from 'axios';
 import { apiUrl } from './config.js';
 import { getUserInfo } from './localStorage.js';
 
 // Product API
 export const getProducts = async ({ searchKeyword = '' }) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
   try {
     let queryString = '?';
     if (searchKeyword) queryString += `searchKeyword=${searchKeyword}&`;
-    const response = await fetch(
-      `${apiUrl}/api/products${queryString}`,
-      options
-    );
-    const json = await response.json();
-    if (response.status !== 200) {
-      throw new Error(json.message);
+    const options = {
+      url: `${apiUrl}/api/products${queryString}`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await axios(options);
+    if (response.statusText !== 'OK') {
+      throw new Error(response.data.message);
     }
-    return json;
+    return response.data;
   } catch (err) {
     console.log('Error in get products', err);
     return { error: err.message };
