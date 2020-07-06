@@ -1,5 +1,6 @@
 import { showLoading, hideLoading, rerender } from '../utils.js';
 import { deleteOrder, getOrders } from '../api.js';
+import DashboardMenu from '../components/DashboardMenu.js';
 
 const OrderListScreen = {
   after_render: () => {
@@ -24,10 +25,10 @@ const OrderListScreen = {
   render: async () => {
     const orders = await getOrders();
     return `
-  <div class="content" >
-      <div class="order-header">
-        <h3>Orders</h3>
-      </div>
+    <div class="dashboard">
+    ${DashboardMenu.render({ selected: 'orders' })}
+    <div class="dashboard-content">
+      <h1>Orders</h1> 
       <div class="order-list">
         <table>
           <thead>
@@ -35,25 +36,22 @@ const OrderListScreen = {
               <th>ID</th>
               <th>DATE</th>
               <th>TOTAL</th>
-              <th>USER</th>
-              <th>PAID</th>
-              <th>PAID AT</th>
-              <th>DELIVERED</th>
+              <th>USER</th> 
+              <th>PAID AT</th> 
               <th>DELIVERED AT</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
-            ${orders.map(
-              (order) => `<tr key={order._id}>
+            ${orders
+              .map(
+                (order) => `<tr key={order._id}>
               <td>${order._id}</td>
               <td>${order.createdAt}</td>
               <td>${order.totalPrice}</td>
               <td>${order.user.name}</td>
-              <td>${order.isPaid.toString()}</td>
-              <td>${order.paidAt}</td>
-              <td>${order.isDelivered.toString()}</td>
-              <td>${order.deliveredAt}</td>
+              <td>${order.paidAt || 'No'}</td>
+              <td>${order.deliveredAt || 'No'}</td>
               <td> 
                 <button type="button" class="edit-button" id="${
                   order._id
@@ -63,12 +61,14 @@ const OrderListScreen = {
                 }">Delete</button>
               </td>
             </tr>`
-            )}
+              )
+              .join('\n')}
           </tbody>
         </table>
 
       </div>
-    </div>
+      </div>
+      </div>
     `;
   },
 };

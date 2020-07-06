@@ -19,7 +19,7 @@ export const parseRequestUrl = () => {
     value: q[1],
   };
 };
-export const rerender = async (component, areaName = 'content') => {
+export const rerender = async (component, areaName = 'main') => {
   const area = document.getElementById(`${areaName}_container`);
   area.innerHTML = await component.render();
   await component.after_render();

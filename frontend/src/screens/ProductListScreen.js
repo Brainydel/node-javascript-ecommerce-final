@@ -1,5 +1,6 @@
 import { getProducts, createProduct, deleteProduct } from '../api.js';
 import { showLoading, rerender, hideLoading } from '../utils.js';
+import DashboardMenu from '../components/DashboardMenu.js';
 
 const ProductListScreen = {
   after_render: () => {
@@ -30,14 +31,13 @@ const ProductListScreen = {
   render: async () => {
     const products = await getProducts({});
     return `
-    <div class="content">
-        <div class="product-header">
-          <h3>Products</h3>
+    <div class="dashboard">
+    ${DashboardMenu.render({ selected: 'products' })}
+    <div class="dashboard-content">
+      <h1>Products</h1> 
           <button id="create-product-button" class="primary">
             Create Product
           </button>
-        </div> 
-
         <div class="product-list">
           <table>
             <thead>
@@ -71,7 +71,7 @@ const ProductListScreen = {
             </tbody>
           </table>
         </div>
-      </div>`;
+        </div></div>`;
   },
 };
 export default ProductListScreen;

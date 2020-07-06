@@ -29,18 +29,8 @@ const Header = {
       if (isAdmin) {
         document.getElementById('header-links').innerHTML = `
         <a href="/#/profile">${name}</a>
-        <a href="/#/cart">Cart</a>       
-        <div class="dropdown">
-          <a href="/#">Admin</a>
-          <ul class="dropdown-content">
-          <li>  
-            <a href="/#/productlist">Products</a>
-          </li>
-          <li> 
-            <a href="/#/orderlist">Orders</a> 
-          </li>
-          </ul>
-        </div>`;
+        <a href="/#/cart">Cart</a>
+        <a href="/#/dashboard">Dashboard</a> `;
       } else {
         document.getElementById('header-links').innerHTML = `
         <a href="/#/profile">${name}</a>

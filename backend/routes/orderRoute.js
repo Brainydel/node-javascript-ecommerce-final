@@ -1,6 +1,8 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel';
+import User from '../models/userModel';
+import Product from '../models/productModel';
 import { isAuth, isAdmin } from '../util';
 
 const router = express.Router();
@@ -21,7 +23,48 @@ router.get(
     res.send(orders);
   })
 );
+router.get(
+  '/summary',
+  asyncHandler(async (req, res) => {
+    const orders = await Order.aggregate([
+      // { $unwind: { path: '$orderItems' } },
+      {
+        $group: {
+          _id: null,
+          numOrders: { $sum: 1 },
+          totalSales: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          numUsers: { $sum: 1 },
+        },
+      },
+    ]);
+    const dailyOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          orders: { $sum: 1 },
+          sales: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+    const productCategories = await Product.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
 
+    res.send({ orders, users, dailyOrders, productCategories });
+  })
+);
 router.get(
   '/:id',
   isAuth,

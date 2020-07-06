@@ -19,6 +19,7 @@ import Aside from './components/Aside.js';
 import ProductListScreen from './screens/ProductListScreen.js';
 import ProductEditScreen from './screens/ProductEditScreen.js';
 import OrderListScreen from './screens/OrderListScreen.js';
+import DashboardScreen from './screens/DashboardScreen.js';
 
 // List of all routes.s
 const routes = {
@@ -34,6 +35,7 @@ const routes = {
   '/product/:id/edit': ProductEditScreen,
   '/productlist': ProductListScreen,
   '/orderlist': OrderListScreen,
+  '/dashboard': DashboardScreen,
   '/order/:id': OrderScreen,
   '/cart/:id': CartScreen,
   '/cart': CartScreen,
