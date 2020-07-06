@@ -646,6 +646,10 @@ form.example input[type='text'] {
   flex-wrap: wrap;
   height: 100%;
 }
+.dashboard h1 {
+  font-size: 3rem;
+  margin: 1rem 0;
+}
 
 .dashboard-menu {
   flex: 1 1 20rem;
@@ -678,6 +682,7 @@ form.example input[type='text'] {
   list-style-type: none;
   flex-wrap: wrap;
   padding: 0;
+  margin: 0;
 }
 ul.summary-items > li {
   border: 0.1rem #c0c0c0 solid;
