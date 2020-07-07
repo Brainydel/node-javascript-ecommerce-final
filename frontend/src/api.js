@@ -120,14 +120,14 @@ export const uploadProductImage = async (bodyFormData) => {
   };
   console.log(bodyFormData);
   try {
-    const response = await fetch(`${apiUrl}/upload`, options);
+    const response = await fetch(`${apiUrl}/api/uploads`, options);
     const json = await response.json();
     if (response.status !== 201) {
       throw new Error(json.message);
     }
     return json;
   } catch (err) {
-    console.log('Error in create review', err.message);
+    console.log('Error in upload image', err.message);
     return { error: err.message };
   }
 };

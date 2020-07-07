@@ -44,6 +44,7 @@ const ProductEditScreen = {
           showMessage(data.error);
         } else {
           showMessage('Image Uploaded Successfully.');
+          console.log(data);
           document.getElementById('image').value = data.image;
         }
       });

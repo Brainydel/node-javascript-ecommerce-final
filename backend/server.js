@@ -1,11 +1,11 @@
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
-import fileUpload from 'express-fileupload';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import config from './config';
 import userRoute from './routes/userRoute';
+import uploadRoute from './routes/uploadRoute';
 import productRoute from './routes/productRoute';
 import orderRoute from './routes/orderRoute';
 
@@ -23,6 +23,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/users', userRoute);
+app.use('/api/uploads', uploadRoute);
 app.use('/api/products', productRoute);
 app.use('/api/orders', orderRoute);
 app.get('/api/paypal/clientId', (req, res) => {
@@ -40,21 +41,6 @@ app.use((err, req, res, next) => {
   const status = err.name && err.name === 'ValidationError' ? 400 : 500;
   res.status(status);
   res.send({ message: err.message });
-});
-// upload
-app.use(fileUpload());
-app.post('/upload', (req, res) => {
-  console.log(req.files);
-  if (!req.files || Object.keys(req.files).length === 0) {
-    res.status(400).send('No files were uploaded.');
-  } else {
-    const { image } = req.files;
-    const filename = `${new Date().getTime()}.jpg`;
-    image.mv(`${uploads}/${filename}`, (err) => {
-      if (err) res.status(500).send({ message: err });
-      else res.status(201).send({ image: `/uploads/${filename}` });
-    });
-  }
 });
 
 app.listen(config.PORT, () => {
