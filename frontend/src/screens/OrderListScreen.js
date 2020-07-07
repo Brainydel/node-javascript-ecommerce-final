@@ -39,7 +39,7 @@ const OrderListScreen = {
               <th>USER</th> 
               <th>PAID AT</th> 
               <th>DELIVERED AT</th>
-              <th>ACTIONS</th>
+              <th class="tr-action">ACTIONS</th>
             </tr>
           </thead>
           <tbody>

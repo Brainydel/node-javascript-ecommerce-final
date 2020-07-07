@@ -47,7 +47,7 @@ const ProductListScreen = {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                <th>ACTION</th>
+                <th class="tr-action">ACTION</th>
               </tr>
             </thead>
             <tbody>

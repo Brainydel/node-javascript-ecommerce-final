@@ -540,6 +540,13 @@ td {
   margin: 0;
 }
 /* admin */
+.order-list button .product-list button {
+  padding: 0.5rem;
+  font-size: 1.3rem;
+}
+.tr-action {
+  width: 10rem;
+}
 .dropdown {
   display: inline-block;
   position: relative;
