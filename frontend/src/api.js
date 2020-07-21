@@ -115,10 +115,11 @@ export const createReview = async (productId, review) => {
 export const uploadProductImage = async (bodyFormData) => {
   const options = {
     method: 'POST',
-
     body: bodyFormData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   };
-  console.log(bodyFormData);
   try {
     const response = await fetch(`${apiUrl}/api/uploads`, options);
     const json = await response.json();

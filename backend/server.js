@@ -30,8 +30,7 @@ app.get('/api/paypal/clientId', (req, res) => {
   res.send({ clientId: config.PAYPAL_CLIENT_ID });
 });
 
-const uploads = path.join(__dirname, '/../uploads');
-app.use('/uploads', express.static(uploads));
+app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 app.use(express.static(path.join(__dirname, '/../frontend')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/../frontend/index.html`));

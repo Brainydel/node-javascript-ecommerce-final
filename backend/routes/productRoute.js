@@ -28,7 +28,13 @@ router.get(
     res.send(products);
   })
 );
-
+router.get(
+  '/categories',
+  asyncHandler(async (req, res) => {
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
+  })
+);
 router.get(
   '/:id',
   asyncHandler(async (req, res) => {
