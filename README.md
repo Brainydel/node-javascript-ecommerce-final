@@ -1,4 +1,136 @@
-JS AMAZONA
+# JS AMAZONA
+# Amazona ECommerce Website
+![amazona](/frontend/images/jsamazona.jpg)
+
+# JavaScript Tutorial - Full ECommerce in 7 Hours [2021]
+
+Welcome to my React and Node tutorial to build a fully-functional e-commerce website exactly like amazon. Open your code editor and follow me for the next hours to build an e-commerce website using Vanilla JavaScript and Node.JS, ExpressJS and MongoDB.
+
+## Watch YouTube Video
+[https://www.youtube.com/watch?v=N3FDyheHVMM](https://www.youtube.com/watch?v=N3FDyheHVMM)
+
+## Demo Website
+
+- 👉 Heroku : [https://jsamazona.herokuapp.com](https://jsamazona.herokuapp.com)
+- 👉 AWS : [https://jsamazona.webacademy.pro](https://jsamazona.webacademy.pro)
+
+
+## You Will Learn
+
+- HTML5 and CSS3: Semantic Elements, CSS Grid, Flexbox
+- JavaScript: ES6+, Array Functions, Rendering System
+- Node & Express: Web API, Body Parser, File Upload, JWT
+- MongoDB: Mongoose, Aggregation
+- Development: ESLint, Babel, Git, Github,
+- Deployment: Heroku
+- Watch React & Node Tutorial
+
+## Run Locally
+
+### 1. Clone repo
+
+```
+$ git clone git@github.com:basir/node-javascript-ecommerce.git
+$ cd node-javascript-ecommerce
+```
+
+### 2. Setup MongoDB
+ - Download and Install it from [mongodb.com](https://www.mongodb.com/try/download/community)
+
+### 3. Create .env file
+- Create .env file in project folder
+- Enter these lines to that:
+
+```
+MONGODB_URL=mongodb://localhost/jsamazona
+JWT_SECRET=somethingsecret
+PAYPAL_CLIENT_ID=db
+```
+
+### 4. Run Backend
+
+```
+$ npm install
+$ npm run build
+$ npm start
+```
+
+### 5. Run Frontend
+
+```
+# open new terminal
+$ cd frontend
+$ npm install
+$ npm start
+```
+
+### 6. Create Admin User
+
+- Run this on chrome: http://localhost:5000/api/users/createadmin
+- Note admin email and password
+
+### 7. Admin Login
+
+- Run http://localhost:8080/#/signin
+- Enter admin email and password and click signin
+- Click Dashboard Link on Header Menu
+- Click Products on left sidebar
+- Click Create Product Button
+- Enter Product Information
+- Go to home page (http://localhost:8080) and test Ecommerce Website
+
+## Support
+
+- Q/A: https://webacademy.pro/amazona
+- Contact Instructor: [Basir](mailto:basir.jafarzadeh@gmail.com)
+
+
+# Features
+
+1. Home Screen
+   1. Static Web Page Design
+   2. CSS Grid to create website layout
+   3. Flexbox to shape product thumbnails and responsive design
+2. Product Screen
+   1. create single page application
+   2. Create buttons and add events to buttons
+3. Cart Screen
+   1. Save and retrieve data in local storage
+   2. Master in javascript array functions
+   3. Use combo box and add event to it
+   4. re-render screen based on changes in item count
+4. Sign-in and Register Screen
+   1. Create dynamic form
+   2. Input validation in frontend and backend
+   3. Create web server using node.js
+   4. Connect to Mongodb database
+   5. Add registered user to the database
+   6. Authenticate user based on email and password
+   7. Using Jsonwebtoken to authorize users
+5. Shipping and Payment Screen
+   1. Create wizard form to get user data in multiple steps
+   2. Save user info in the local storage
+6. Place Order Screen
+   1. Validate and create order in the database
+7. Order Screen
+   1. Payment with paypal
+   2. Show order state based on user and admin activities
+8. Profile Screen
+   1. Create authenticated routes
+   2. enable user to update their informations
+   3. enable user to logout and clear local storage
+   4. show list of orders to user and link it to details
+9. Dashboard Screen
+   1. Create professional dashboard using pure CSS
+   2. Using chart library to show sales information
+10. Order Screen
+    1. Enable admin to mange orders
+    2. show loading message and alert message
+11. Product Screen
+    1. enable admin to manage products
+    2. upload product images to server
+
+# Lessons
 
 1. Create Folder Structure
    1. create root folder as jsamazona
@@ -74,7 +206,7 @@ JS AMAZONA
    5. move index.html, style.css and images to frontend folder
    6. rename app.js to index.js
    7. update index.html
-   8. add <script src="main.js"></script> before </body>
+   8. add script main.js before body tag
    9. npm start
    10. npm install axios
    11. change fetch to axios in HomeScreen
@@ -168,92 +300,215 @@ JS AMAZONA
     2. connect to mongodb
     3. create config.js
     4. npm install dotenv
-    5. export PORT and MONGODB_URL
+    5. export MONGODB_URL
     6. create models/userModel.js
     7. create userSchema and userModel
     8. create userRoute
     9. create createadmin route
 20. Sign-in Screen UI
-    2. create SigninScreen
-    3. render email and password fields
-    4. style signin form
-21. Sign-in Screen Action
+    1. create SigninScreen
+    2. render email and password fields
+    3. style signin form
+21. Sign-in Screen Backend
+    1. create signin api in backend
+    2. create route for /api/users/signin
+    3. create check user name and password
+    4. if it is not ok the return 401 error
+    5. install express-async-handler
+    6. wrap it in expressAsyncHandler
+    7. add error middleware in server.js
+    8. install Postman
+    9. send post request
+    10. test with invalid user password
+    11. otherwise generate token
+    12. install jsonwebtoken
+    13. set config.JWT_SECRET to somethingsecret
+    14. add generateToken to utils.js
+    15. return token
+    16. test with correct user and password
+22. Sign-in Screen Action
     1. after_render handle form submit
     2. create signin request in frontend
-    3. create signin api in backend
-22. Create Header Component
-    1. update index.html
-    1. add header render and after render to router function
-    1. show header menu based on user logged in or not
-23. Register Screen Action
-    1. after_render handle form submit
-    2. create register request in frontend
-    3. create register api in backend
-24. Create Checkout Wizard Header Component
-    1. create component
-    2. style component
-25. Shipping Screen
-    1. create ShippingScreen.js
-    2. style elements
-    3. handle form submit
-26. Payment Screen
-    1. create PaymentScreen.js
-    2. style elements
-    3. handle form submit
+    3. show alert if email or password is incorrect
+    4. Add getUserInfo and setUserInfo to localStorage
+    5. create Header component
+    6. if userInfo.email exist show user name otherwise show signin
+23. Create Progress Indicator and Alert Component
+    1. create overlay loading div in index.html
+    2. Style overlay loading
+    3. create showLoading() function
+    4. set loading-overlay classList add active
+    5. create hideLoading() function
+    6. create overlay message div in index.html
+    7. add style overlay message
+    8. create showMessage(message, callback)
+    9. document message-overlay set inner HTML
+    10. div > div id message-overlay-content
+    11. show message
+    12. button id message-overlay-close-button OK
+    13. add class active to it
+    14. add event listener for button to call callback
+24. Register Screen
+    1. create RegisterScreen.js
+    2. add form elements
+    3. after_render handle form submit
+    4. create register request in frontend
+    5. create register api in backend
+25. User Profile Screen
+    1. create ProfileScreen.js
+    2. add form elements
+    3. after_render handle form submit
+    4. create profile update request in frontend
+    5. create profile update api in backend
+    6. create isAuth in utils.js and use in update profile
+    7. implement sign out
+26. Checkout Wizard
+    1. create CheckoutSteps.js
+    2. create div elements for step 1 to 4
+    3. create redirectUser() in utils.js
+    4. copy profile screen and as shipping screen
+    5. use CheckoutStep
+    6. define getShipping and setShipping
+    7. copy shipping screen and as payment screen
+    8. define getPayment and setPayment
+    9. redirect user to PlaceOrder.js
 27. PlaceOrder Screen UI
     1. create PlaceOrder.js
     2. style elements
 28. PlaceOrder Screen Action
-    1. handle form submit
-    2. create backend api to create order
+    1. handle place order button click
+    2. createOrder api
+    3. create orderModel
+    4. create orderRouter
+    5. create post order route
 29. Order Screen
     1. create OrderScreen.js
     2. style elements
 30. PayPal Payment
-    1. add paypal checkout script
-    2. show paypal button
-    3. update order after payment
-31. User Profile UI
-    1. create ProfileScreen.js
-    2. style elements
-32. User Profile Data
-    1. Create profile info backend api
-    2. Create user orders api
-    3. Call apis in the backend
-33. Update Profile
-    1. handle form submit
-    2. send request to backend
-    3. create api to update profile
-34. Admin Products UI
-    1. create Admin Order menu in header
-    2. create ProductListScreen.js
-    3. show products with edit and delete button
-    4. show create product button
-    5. implement create product backend
-    6. redirect user to edit product screen
-35. Edit Product
+    1. get client id from paypal
+    2. set it in .env file
+    3. create route form /api/paypal/clientId
+    4. create getPaypalClientID in api.js
+    5. add paypal checkout script in OrderScreen.js
+    6. show paypal button
+    7. update order after payment
+    8. create payOrder in api.js
+    9. create route for /:id/pay in orderRouter.js
+    10. rerender after pay order
+31. Display Orders History
+    1. create customer orders api
+    2. create api for getMyOrders
+    3. show orders in profile screen
+    4. style orders
+32. Admin Dashboard UI
+    1. Header.js
+    2. if user is admin show Dashboard
+    3. create DashboardScreen
+    4. create DashboardMenu
+    5. Style dashboard
+33. Admin Products UI
     1. create ProductListScreen.js
+    2. show products with edit and delete button
+    3. show create product button
+34. Create Product
+    1. create product model
+    2. implement create product route
+    3. create product function in api.js
+    4. call create product function in ProductListScreen
+    5. redirect to edit product
+35. Edit Product UI
+    1. create ProductEditScreen.js
     2. load product data from backend
     3. handle form submit
     4. save product in backend
-36. Delete Product
+36. Edit Product Backend
+    1. handle form submit
+    2. create updateProduct
+    3. save product in backend
+37. Upload Product Image
+    1. npm install multer
+    2. create routes/uploadRoute.js
+    3. import express and multer
+    4. create disk storage with Date.now().jpg as filename
+    5. set upload as multer({ storage })
+    6. router.post('/', upload.single('image'))
+    7. return req.file.path
+    8. app.use('/api/uploads',uploadRoute) in server.js
+    9. create uploads folder and put empty file.txt there.
+    10. ProductEditScreen.js
+    11. create file input and set id to image-file
+    12. after_render() handle image-file change
+    13. create form data
+    14. call uploadProductImage()
+    15. create uploadProductImage in api.js
+    16. update server.js
+38. Build Project
+    1. create build script for frontend
+    2. create build script for backend
+    3. update sever.js to serve frontend build folder and uploads folder
+    4. stop running frontend
+    5. npm run build
+    6. check localhost:5000 for running website and showing images
+39. Delete Product
     1. update ProductListScreen.js
     2. handle delete button
     3. rerender after deletion
-37. Admin Orders
+40. Admin Orders
     1. create Admin Order menu in header
     2. create AdminOrder.js
     3. load orders from backend
     4. list them in the screen
     5. show delete and edit button
     6. redirect to order details on edit action
-38. Edit Order
+41. Deliver Order
     1. if order is payed show deliver button for admin
     2. handle click on deliver button
     3. set state to delivered
-39. Delete Order
-    1. update OrderListScreen.js
-    2. handle delete button
-    3. rerender after deletion
-40. Publish heroku
-    1. publish steps
+42. Show Summary Report in Dashboard
+    1. create summary section
+    2. style summary
+    3. create summary backend
+    4. create getSummary in api.js
+    5. load data in dashboard screen
+    6. show 3 boxes for Users, Orders and Sales
+43. Show Chart in Dashboard
+    1. import chartist
+    2. add chartist css to index.html
+    3. create linear chart for daily sales
+    4. create pie chart for product categories
+44. Publish heroku
+    1. Create git repository
+    2. Create heroku account
+    3. install Heroku CLI
+    4. heroku login
+    5. heroku apps:create <yourname>jsamazona
+    6. Edit package.json for heroku-prebuild
+    7. Edit package.json for heroku-postbuild
+    8. Edit package.json for node engines
+    9. Create Procfile
+    10. Edit server.js for PORT
+    11. Create mongodb atlas database
+    12. create MongoDB Account
+    13. open cloud.mongodb.com
+    14. add new user and save username and password
+    15. set Network Access to accept all requests
+    16. Create new database
+    17. create connection string based on db name and user and password
+    18. Set Cloud MongoDB connection in heroku env variables
+    19. Commit and push
+45. Product Search Bar
+    1. create search bar in Header.js
+    2. add style
+    3. handle submit form
+    4. edit parse url to get query string
+    5. update product list api for search keyword
+46. Show Categories In Sidebar Menu
+    1. create aside-open-button in Header.js
+    2. add event to open aside
+    3. create Aside.js component
+    4. Add style aside
+    5. after render close it on click on close button
+    6. Use it in index.html
+    7. Update index.js to render aside 9.
+    8. call getCategories
+    9. create getCategories in api.js
